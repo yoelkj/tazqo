@@ -1,0 +1,373 @@
+---
+import { BRAND, CONTACT } from "../config";
+import Container from "./Container.astro";
+
+const link =
+  "navlink inline-flex items-center justify-center h-10 px-3 rounded-md text-slate-700 hover:text-[color:var(--brand-indigo)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--brand-indigo)]";
+const cta =
+  "inline-flex items-center justify-center h-10 px-4 rounded-lg border border-slate-200 text-slate-900 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--brand-indigo)]";
+---
+
+<!-- HEADER (no contiene el panel; así evitamos conflictos con :hover) -->
+<header
+  id="siteHeader"
+  role="banner"
+  class="fixed top-0 inset-x-0 z-50 transition-all duration-300"
+>
+  <div class="transition-all duration-300 border-b border-transparent">
+    <Container class="flex items-center justify-between h-16">
+      <!-- Brand -->
+      <a href="/" class="flex items-center gap-2">
+        <img src="/favicon.svg" alt={BRAND.name} class="h-8 w-8 rounded-lg" />
+        <span class="text-base md:text-lg font-semibold tracking-tight"
+          >{BRAND.name}</span
+        >
+      </a>
+
+      <!-- Desktop nav -->
+      <nav
+        role="navigation"
+        aria-label="Principal"
+        class="hidden md:flex items-center gap-2"
+      >
+        <a href="#servicios" data-spy="true" class={link}>Servicios</a>
+        <a href="#expertise" data-spy="true" class={link}>Expertise</a>
+        <a href="#como" data-spy="true" class={link}>Cómo</a>
+        <a href="#precios" data-spy="true" class={link}>Precios</a>
+        <a href="#faq" data-spy="true" class={link}>FAQ</a>
+        <a href={CONTACT.whatsappUrl} class={cta}>WhatsApp</a>
+      </nav>
+
+      <!-- Header móvil: CTA + hamburguesa -->
+      <div class="md:hidden flex items-center gap-2">
+        <a
+          href={CONTACT.whatsappUrl}
+          class="inline-flex items-center justify-center h-10 px-3 rounded-lg border border-slate-200 text-slate-900 hover:bg-slate-50 text-sm"
+        >
+          WhatsApp
+        </a>
+        <button
+          id="menuBtn"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50"
+          aria-expanded="false"
+          aria-controls="mobileOverlay"
+          aria-haspopup="menu"
+          aria-label="Abrir menú"
+        >
+          <svg
+            id="iconOpen"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 7h16M4 12h16M4 17h16"></path>
+          </svg>
+          <svg
+            id="iconClose"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 hidden"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </Container>
+  </div>
+</header>
+
+<!-- OVERLAY MÓVIL (fuera del header) -->
+<div
+  id="mobileOverlay"
+  class="md:hidden hidden fixed left-0 right-0 bottom-0 z-[70]"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menú principal"
+>
+  <!-- backdrop clicable para cerrar -->
+  <div
+    id="backdrop"
+    class="absolute inset-0 bg-white/95 backdrop-blur-md border-t border-slate-200"
+  >
+  </div>
+
+  <!-- contenedor del menú -->
+  <Container data-menu-container class="relative h-full py-4 flex flex-col">
+    <nav class="flex-1 overflow-y-auto">
+      <a
+        href="#servicios"
+        data-spy="true"
+        class="block px-3 py-4 text-lg text-slate-900 hover:bg-slate-50 rounded-md"
+        >Servicios</a
+      >
+      <a
+        href="#expertise"
+        data-spy="true"
+        class="block px-3 py-4 text-lg text-slate-900 hover:bg-slate-50 rounded-md"
+        >Expertise</a
+      >
+      <a
+        href="#como"
+        data-spy="true"
+        class="block px-3 py-4 text-lg text-slate-900 hover:bg-slate-50 rounded-md"
+        >Cómo</a
+      >
+      <a
+        href="#precios"
+        data-spy="true"
+        class="block px-3 py-4 text-lg text-slate-900 hover:bg-slate-50 rounded-md"
+        >Precios</a
+      >
+      <a
+        href="#faq"
+        data-spy="true"
+        class="block px-3 py-4 text-lg text-slate-900 hover:bg-slate-50 rounded-md"
+        >FAQ</a
+      >
+    </nav>
+    <div class="pt-4 border-t border-slate-200">
+      <a
+        href={CONTACT.whatsappUrl}
+        class="inline-flex w-full items-center justify-center h-12 rounded-xl border border-slate-200 bg-white font-semibold hover:bg-slate-50"
+      >
+        WhatsApp
+      </a>
+    </div>
+  </Container>
+</div>
+
+<style is:inline>
+  /* Integrado con el hero */
+  #siteHeader {
+    background: transparent;
+    border-bottom: 1px solid transparent;
+  }
+  /* Hover/scroll o menú abierto → glass sólido */
+  #siteHeader:hover,
+  #siteHeader.is-scrolled,
+  body.menu-open #siteHeader {
+    background: rgba(255, 255, 255, 0.82);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border-bottom-color: rgba(2, 6, 23, 0.12);
+    box-shadow: 0 8px 20px rgba(2, 6, 23, 0.08);
+  }
+
+  /* Estado activo del link (sin subrayado) */
+  .navlink {
+    position: relative;
+  }
+  .nav-active {
+    color: var(--brand-indigo) !important;
+    font-weight: 600;
+  }
+</style>
+
+<script is:inline>
+  const header = document.getElementById("siteHeader");
+  const overlay = document.getElementById("mobileOverlay");
+  const backdrop = document.getElementById("backdrop");
+  const btn = document.getElementById("menuBtn");
+  const iconOpen = document.getElementById("iconOpen");
+  const iconClose = document.getElementById("iconClose");
+
+  // ----- Glass al hacer scroll
+  const onScroll = () => {
+    if (window.scrollY > 10) header.classList.add("is-scrolled");
+    else header.classList.remove("is-scrolled");
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  // ----- Utilidades
+  const headerH = () => header?.offsetHeight || 64;
+  const setHeaderVars = () => {
+    document.documentElement.style.setProperty("--header-h", headerH() + "px");
+    overlay.style.top = headerH() + "px"; // overlay arranca justo bajo el header
+  };
+
+  // Evitar salto por desaparición del scroll (añade padding-right al body)
+  const scrollbarW = () =>
+    window.innerWidth - document.documentElement.clientWidth;
+  const applyBodyShift = (on) => {
+    document.body.style.paddingRight = on ? scrollbarW() + "px" : "";
+  };
+
+  // ----- Menú móvil + focus management
+  let lastFocused = null;
+  const focusableSel =
+    'a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])';
+  const trapFocus = (container, e) => {
+    const nodes = Array.from(container.querySelectorAll(focusableSel)).filter(
+      (el) => el.offsetParent !== null
+    );
+    if (nodes.length === 0) return;
+    const first = nodes[0],
+      last = nodes[nodes.length - 1];
+    if (e.key === "Tab") {
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  };
+
+  const openMenu = () => {
+    lastFocused = document.activeElement;
+    overlay.classList.remove("hidden");
+    applyBodyShift(true);
+    document.documentElement.classList.add("overflow-hidden");
+    document.body.classList.add("menu-open"); // fuerza glass
+    btn.setAttribute("aria-expanded", "true");
+    iconOpen.classList.add("hidden");
+    iconClose.classList.remove("hidden");
+
+    // Focus al primer enlace del overlay
+    const firstLink = overlay.querySelector('a[href^="#"]');
+    firstLink?.focus();
+    overlay.addEventListener("keydown", onKeydownTrap);
+  };
+
+  const closeMenu = () => {
+    overlay.classList.add("hidden");
+    applyBodyShift(false);
+    document.documentElement.classList.remove("overflow-hidden");
+    document.body.classList.remove("menu-open");
+    btn.setAttribute("aria-expanded", "false");
+    iconOpen.classList.remove("hidden");
+    iconClose.classList.add("hidden");
+    overlay.removeEventListener("keydown", onKeydownTrap);
+    // Restituye foco
+    (lastFocused instanceof HTMLElement ? lastFocused : btn)?.focus();
+  };
+
+  const onKeydownTrap = (e) => {
+    if (e.key === "Escape") {
+      closeMenu();
+      return;
+    }
+    trapFocus(overlay, e);
+  };
+
+  btn?.addEventListener("click", () => {
+    overlay.classList.contains("hidden") ? openMenu() : closeMenu();
+  });
+  backdrop?.addEventListener("click", closeMenu);
+  overlay?.addEventListener("click", (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (a) closeMenu();
+  });
+  window.addEventListener(
+    "keydown",
+    (e) => {
+      if (e.key === "Escape" && !overlay.classList.contains("hidden"))
+        closeMenu();
+    },
+    { passive: true }
+  );
+
+  // ===== Scroll-Spy + desplazamiento con offset =====
+  function initNav() {
+    setHeaderVars();
+
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    const spyLinks = Array.from(
+      document.querySelectorAll('a[data-spy="true"]')
+    );
+    const ids = [
+      ...new Set(
+        spyLinks
+          .map((a) => (a.getAttribute("href") || "").slice(1))
+          .filter(Boolean)
+      ),
+    ];
+    const sections = ids
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+
+    const setActive = (id) => {
+      spyLinks.forEach((a) => {
+        const on = a.getAttribute("href") === `#${id}`;
+        a.classList.toggle("nav-active", on);
+        a.setAttribute("aria-current", on ? "true" : "false");
+      });
+    };
+
+    function scrollToId(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const y = Math.max(
+        0,
+        el.getBoundingClientRect().top + window.scrollY - (headerH() + 12)
+      );
+      window.scrollTo({ top: y, behavior: prefersReduced ? "auto" : "smooth" });
+    }
+
+    // Click en anchors con offset
+    spyLinks.forEach((a) => {
+      a.addEventListener("click", (e) => {
+        const href = a.getAttribute("href") || "";
+        if (!href.startsWith("#")) return;
+        e.preventDefault();
+        scrollToId(href.slice(1));
+      });
+    });
+
+    // IO cuando el DOM YA existe
+    const buildObserver = () =>
+      new IntersectionObserver(
+        (entries) => {
+          entries.forEach((ent) => {
+            if (ent.isIntersecting) setActive(ent.target.id);
+          });
+        },
+        { rootMargin: `-${headerH() + 24}px 0px -55% 0px`, threshold: 0.01 }
+      );
+
+    let io = buildObserver();
+    sections.forEach((s) => io.observe(s));
+
+    // Corrige si hay hash al cargar
+    if (location.hash) setTimeout(() => scrollToId(location.hash.slice(1)), 10);
+
+    // Re-crear al cambiar altura del header / resize
+    let rAf;
+    window.addEventListener(
+      "resize",
+      () => {
+        cancelAnimationFrame(rAf);
+        rAf = requestAnimationFrame(() => {
+          setHeaderVars();
+          io.disconnect();
+          io = buildObserver();
+          sections.forEach((s) => io.observe(s));
+        });
+      },
+      { passive: true }
+    );
+  }
+
+  // Espera al DOM
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initNav, { once: true });
+  } else {
+    initNav();
+  }
+</script>

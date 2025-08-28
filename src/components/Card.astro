@@ -1,0 +1,23 @@
+---
+/* Props:
+ *  icon? (Astro slot opcional)
+ *  title: string
+ *  desc?: string | Astro slot
+ *  class?: string
+ */
+const { title, desc = "", class: className = "" } = Astro.props;
+---
+
+<div class={`card ${className}`}>
+  <div class="flex items-start gap-3">
+    <div
+      class="h-9 w-9 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center shrink-0"
+    >
+      <slot name="icon">⌘</slot>
+    </div>
+    <div>
+      <div class="card-title">{title}</div>
+      {desc ? <p class="card-desc">{desc}</p> : <slot />}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,98 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { BRAND, SITE_URL } from "../config";
+import "../styles/base.css";
+import ScrollUI from "../components/ScrollUI.astro";
+
+const { pageTitle, pageDescription } = Astro.props;
+
+const title = pageTitle ?? `${BRAND.name} — Automatización para MYPEs`;
+const description =
+  pageDescription ??
+  "Automatizaciones express para MYPEs: pedidos, reportes, citas y facturación conectando tus sistemas actuales, con observabilidad y control.";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: BRAND?.name || "Tazqo",
+  url: SITE_URL,
+  logo: "/favicon.svg",
+};
+---
+
+<html lang={BRAND.locale || "es"} class="bg-[color:var(--canvas)]">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index,follow" />
+    <meta name="color-scheme" content="light" />
+
+    <!-- Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <style>
+      body{font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;}
+    </style>
+
+    <!-- Favicon & manifest -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#6659F5" />
+
+    <!-- Canonical & Open Graph -->
+    <link rel="canonical" href={SITE_URL} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/og-tazqo.png" />
+    <meta property="og:url" content={SITE_URL} />
+    <meta property="og:locale" content={BRAND.locale?.replace("-", "_") || "es_PE"} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="/og-tazqo.png" />
+
+    <!-- JSON-LD: Organization -->
+    <script type="application/ld+json" is:inline>
+      {JSON.stringify(schema)}
+    </script>
+
+    <!-- JSON-LD: WebSite + SearchAction -->
+    <script type="application/ld+json" is:inline>
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": BRAND.name,
+      "url": SITE_URL,
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": `${SITE_URL}/?q={search_term_string}`,
+        "query-input": "required name=search_term_string"
+      }
+    })}
+    </script>
+  </head>
+
+  <body class="text-slate-900">
+    <!-- Accesibilidad: saltar al contenido -->
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50
+      inline-block px-3 py-2 rounded-md bg-white border border-slate-200">
+      Saltar al contenido
+    </a>
+
+    <Header />
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <Footer />
+    <ScrollUI />
+  </body>
+</html>

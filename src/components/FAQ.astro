@@ -1,0 +1,39 @@
+---
+import Container from "./Container.astro";
+import SectionTitle from "./SectionTitle.astro";
+import Accordion from "./Accordion.astro";
+
+const {
+  title = "Preguntas frecuentes",
+  kicker = "FAQ",
+  items = [
+    { q: "¿Necesito cambiar de sistema?", a: "No. Conectamos lo que ya usas (WhatsApp, Sheets, Gmail, e-commerce, etc.)." },
+    { q: "¿Cuánto tarda?", a: "El primer flujo suele entregarse en 48–72 h, según complejidad y accesos." },
+    { q: "¿Qué incluye la mensualidad?", a: "Hosting de flujos, monitoreo, alertas y ajustes menores." },
+    { q: "¿Puedo empezar pequeño?", a: "Sí. Iniciamos con un flujo de alto impacto y escalamos." },
+  ],
+} = Astro.props;
+
+// JSON-LD para FAQPage (a partir de items)
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": items.map(({ q, a }) => ({
+    "@type": "Question",
+    "name": q,
+    "acceptedAnswer": { "@type": "Answer", "text": a }
+  }))
+};
+---
+
+<section id="faq" class="bg-white">
+  <Container class="py-20 md:py-24">
+    <SectionTitle align="center" kicker={kicker} title={title} />
+    <div class="mt-10">
+      <Accordion items={items} />
+    </div>
+  </Container>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json" is:inline>{JSON.stringify(faqLd)}</script>
+</section>

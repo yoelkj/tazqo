@@ -1,0 +1,94 @@
+---
+import Container from "./Container.astro";
+import SectionTitle from "./SectionTitle.astro";
+import CTAButton from "./CTAButton.astro";
+import { CONTACT } from "../config";
+
+const steps = [
+  {
+    n: 1,
+    title: "Diagnóstico",
+    desc: "Objetivo, entradas/salidas, reglas y responsables.",
+    icon: "target",
+  },
+  {
+    n: 2,
+    title: "Implementación",
+    desc: "Conectores, validaciones y pruebas end-to-end.",
+    icon: "bolt",
+  },
+  {
+    n: 3,
+    title: "Monitoreo",
+    desc: "Alertas, trazabilidad y reintentos con backoff.",
+    icon: "eye",
+  },
+  {
+    n: 4,
+    title: "Entrega & docs",
+    desc: "Checklist de entrega y documentación para operar.",
+    icon: "doc",
+  },
+];
+---
+
+<section id="como" class="bg-white">
+  <Container class="py-20 md:py-24">
+    <SectionTitle align="center" kicker="Proceso" title="Cómo trabajamos" />
+
+    <!-- Stepper responsivo: horizontal en desktop, vertical en móvil -->
+    <div class="mt-10 grid gap-6 md:grid-cols-4">
+      {steps.map((s, i) => (
+        <div class="relative">
+          <!-- Conector (solo desktop, excepto el último) -->
+          {i < steps.length - 1 && (
+            <div class="hidden md:block absolute top-5 -right-3 w-6 h-0.5 bg-slate-200"></div>
+          )}
+
+          <div class="surface p-6 rounded-2xl hover:shadow-elev-2 transition-shadow">
+            <div class="flex items-center gap-3">
+              <div class="relative">
+                <div class="h-10 w-10 rounded-full bg-indigo-50 text-brand-indigo flex items-center justify-center font-semibold">
+                  {s.n}
+                </div>
+              </div>
+              <div class="h-5 w-px bg-slate-200 md:hidden" />
+              <div class="h-0.5 flex-1 bg-slate-200 rounded-full md:hidden" />
+            </div>
+
+            <div class="mt-4 flex items-center gap-3">
+              <!-- Icon SVG según el step -->
+              {
+                s.icon === "target" ? (
+                  <svg class="h-6 w-6 text-brand-indigo" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="currentColor" d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 3a7 7 0 110 14 7 7 0 010-14zm0 3a4 4 0 100 8 4 4 0 000-8zm-1 3h2v2h-2v-2z"/>
+                  </svg>
+                ) : s.icon === "bolt" ? (
+                  <svg class="h-6 w-6 text-brand-indigo" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="currentColor" d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/>
+                  </svg>
+                ) : s.icon === "eye" ? (
+                  <svg class="h-6 w-6 text-brand-indigo" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="currentColor" d="M12 5C7 5 3.1 8 1 12c2.1 4 6 7 11 7s8.9-3 11-7c-2.1-4-6-7-11-7zm0 11a4 4 0 110-8 4 4 0 010 8z"/>
+                  </svg>
+                ) : (
+                  <svg class="h-6 w-6 text-brand-indigo" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="currentColor" d="M6 2h9a1 1 0 011 1v2h2a1 1 0 011 1v15a1 1 0 01-1 1H6a1 1 0 01-1-1V3a1 1 0 011-1zm1 3v14h10V8H13V5H7z"/>
+                  </svg>
+                )
+              }
+
+              <h3 class="text-lg font-semibold text-slate-900">{s.title}</h3>
+            </div>
+
+            <p class="mt-2 text-slate-700">{s.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-10 text-center">
+      <CTAButton href={CONTACT.whatsappUrl} text="Quiero mi diagnóstico" />
+    </div>
+  </Container>
+</section>

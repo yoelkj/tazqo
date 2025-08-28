@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://tareas.velcodi.com/sitemap-index.xml

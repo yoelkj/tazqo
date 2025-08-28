@@ -1,0 +1,30 @@
+---
+import LandingLayout from "../layouts/LandingLayout.astro";
+import Container from "../components/Container.astro";
+import CTAButton from "../components/CTAButton.astro";
+import { CONTACT } from "../config";
+---
+
+<LandingLayout pageTitle="Página no encontrada · Tazqo">
+  <section class="min-h-[60vh] flex items-center">
+    <Container class="text-center">
+      <p class="uppercase tracking-[0.18em] text-[0.78rem] text-brand-indigo">
+        Error 404
+      </p>
+      <h1 class="h1 mt-2">Uy… no encontramos esa página</h1>
+      <p class="measure mx-auto mt-4 text-slate-600">
+        El enlace puede estar roto o haber cambiado. Vuelve al inicio o
+        escríbenos.
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+        <a
+          href="/"
+          class="inline-flex items-center justify-center h-12 px-6 rounded-xl border border-slate-200 hover:bg-slate-50 font-semibold"
+        >
+          Volver al inicio
+        </a>
+        <CTAButton href={CONTACT.whatsappUrl} text="Hablar por WhatsApp" />
+      </div>
+    </Container>
+  </section>
+</LandingLayout>

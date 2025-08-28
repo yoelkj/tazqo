@@ -1,0 +1,104 @@
+---
+/* Barra de progreso + GoTop. Invisible hasta que el usuario haga scroll. */
+---
+
+<!-- Barra de progreso (oculta inicialmente) -->
+<div
+  id="progressWrap"
+  class="hidden fixed inset-x-0 top-16 z-40 pointer-events-none"
+>
+  <div class="mx-auto max-w-7xl px-4">
+    <div class="h-[3px] bg-slate-200/50 rounded-full overflow-hidden">
+      <div id="progressBar" class="h-full bg-brand-indigo" style="width:0%">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Go to top (oculto por defecto) -->
+<button
+  id="goTop"
+  aria-label="Volver arriba"
+  class="hidden fixed bottom-6 right-6 z-40
+         h-12 w-12 rounded-full bg-white text-slate-700
+         shadow-elev-2 ring-1 ring-slate-200
+         hover:text-brand-indigo hover:ring-brand-indigo/40
+         focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-indigo"
+>
+  <svg viewBox="0 0 24 24" class="mx-auto h-6 w-6" aria-hidden="true">
+    <path fill="currentColor" d="M12 5l-7 7h4v7h6v-7h4z"></path>
+  </svg>
+</button>
+
+<style is:inline>
+  /* Si el menú móvil está abierto, ocultar el botón para evitar superposición */
+  body.menu-open #goTop {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto !important;
+    }
+    #progressBar {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const wrap = document.getElementById("progressWrap");
+    const bar = document.getElementById("progressBar");
+    const btn = document.getElementById("goTop");
+    const THRESHOLD = 8; // px para empezar a mostrar la barra
+
+    // Ajusta la posición a la altura real del header si existe
+    const header = document.querySelector("header");
+    if (header) wrap.style.top = (header.offsetHeight || 64) + "px";
+
+    function update() {
+      const scrolled = window.scrollY || document.documentElement.scrollTop;
+      const max =
+        document.documentElement.scrollHeight -
+          document.documentElement.clientHeight || 1;
+      const pct = Math.min(100, Math.max(0, (scrolled / max) * 100));
+      bar.style.width = pct + "%";
+
+      // Mostrar/ocultar barra
+      if (scrolled > THRESHOLD) wrap.classList.remove("hidden");
+      else {
+        wrap.classList.add("hidden");
+        bar.style.width = "0%";
+      }
+
+      // Mostrar/ocultar botón
+      if (scrolled > 300) btn.classList.remove("hidden");
+      else btn.classList.add("hidden");
+    }
+
+    // Scroll performante con rAF
+    let ticking = false;
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            update();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
+
+    // Click ir arriba
+    btn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // Estado inicial (oculto)
+    update();
+  })();
+</script>

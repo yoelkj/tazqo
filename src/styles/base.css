@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===================== Design tokens ===================== */
+:root{
+  /* Acento (match con tailwind: brand.indigo) */
+  --brand-indigo: #6659F5;
+
+  /* Texto / fondos */
+  --ink-900: #0F172A;
+  --canvas: #F6F8FC;   /* fondo general (html tiene bg-[color:var(--canvas)]) */
+
+  /* Superficies */
+  --card-bg: #FFFFFF;
+  --border-soft: rgba(2,6,23,.08);
+
+  /* Hero (degradé + radiales) */
+  --hero-from:    #EEF2FF;
+  --hero-to:      #F8FAFC;
+  --hero-violet:  rgba(102,89,245,.12);
+  --hero-emerald: rgba(16,185,129,.10);
+
+  /* Footer (dos tonos) */
+  --footer-top:    #0E1B2C;
+  --footer-bottom: #0A1523;
+
+  /* Altura del header (fallback). JS la actualiza en runtime. */
+  --header-h: 64px;
+}
+
+/* ===================== Base ===================== */
+html { scroll-behavior: smooth; }
+body {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  font-size: clamp(16px, 0.5vw + 14px, 18px);
+  line-height: 1.65;
+  color: var(--ink-900);
+  background: var(--canvas);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.measure { max-width: 68ch; }
+
+/* Titulares fluidos */
+.h1{ font-size: clamp(2.25rem, 3.4vw, 3.75rem); line-height:1.1; letter-spacing:-0.01em; }
+.h2{ font-size: clamp(1.75rem, 2.4vw, 2.5rem);  line-height:1.15; letter-spacing:-0.005em; }
+
+/* Superficies coherentes */
+.surface {
+  background: var(--card-bg);
+  border-radius: 1rem;
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 1px 2px rgba(16,24,40,0.06), 0 1px 1px rgba(16,24,40,0.03);
+}
+.card { @apply surface p-6 md:p-7; }
+.card-title { @apply text-[1.05rem] md:text-lg font-semibold text-slate-900; }
+.card-desc  { @apply text-[0.98rem] md:text-base text-slate-600 mt-2; }
+.pill { @apply inline-flex items-center rounded-full border border-slate-200 bg-white px-3 py-1 text-[0.9rem] text-slate-700; }
+
+/* Accesibilidad */
+*:focus-visible { outline: 2px solid var(--brand-indigo); outline-offset: 2px; }
+a, button { min-height: 44px; }
+
+/* ===================== Hero ===================== */
+.hero-bg{
+  background:
+    radial-gradient(1000px 520px at 85% -220px, var(--hero-violet), transparent 70%),
+    radial-gradient(800px 420px at -10% 20%, var(--hero-emerald), transparent 60%),
+    linear-gradient(180deg, var(--hero-from) 0%, var(--hero-to) 100%);
+}
+
+/* Grid técnico como overlay */
+.bg-grid{
+  background-image:
+    linear-gradient(to right, rgba(100,116,139,.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(100,116,139,.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ===================== Navegación / Anchors ===================== */
+/* Offset global para anclas bajo header fijo */
+section[id] { scroll-margin-top: calc(var(--header-h) + 12px); }
+
+/* Estado activo del menú (sin subrayado) */
+.navlink { position: relative; }
+.nav-active { color: var(--brand-indigo) !important; font-weight: 600; }
+
+/* ===================== Micro-interacciones ===================== */
+@keyframes chipFloat {
+  0%{ transform: translateY(0) }
+  50%{ transform: translateY(-4px) }
+  100%{ transform: translateY(0) }
+}
+.chip-float { animation: chipFloat 4.5s ease-in-out infinite; }
+.chip-float:nth-child(odd){ animation-duration: 5.2s; }
+
+/* ===================== Preferencias de movimiento ===================== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}

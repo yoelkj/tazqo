@@ -1,0 +1,227 @@
+---
+import Container from "./Container.astro";
+import SectionTitle from "./SectionTitle.astro";
+import CTAButton from "./CTAButton.astro";
+import { CONTACT } from "../config";
+
+// Chips de integraciones (texto + icono SVG consistente)
+const tools = [
+  { label: "WhatsApp Cloud API" },
+  { label: "Google Workspace / Apps Script" },
+  { label: "Make (Integromat)" },
+  { label: "n8n" },
+  { label: "Zapier" },
+  { label: "Shopify" },
+  { label: "WooCommerce" },
+  { label: "Gmail / Drive" },
+];
+
+// Buenas prácticas
+const practices = [
+  "Validación de datos e idempotencia",
+  "Controles anti-duplicados",
+  "Reintentos con backoff",
+  "Versionado de flujos y variables seguras",
+  "Pruebas E2E antes de producción",
+  "Documentación clara y checklist",
+];
+
+// Observabilidad / calidad
+const quality = [
+  "Logs y trazabilidad por ID",
+  "Alertas proactivas ante fallos",
+  "Métricas de salud y tiempos",
+  "SLA operativo acordado",
+  "Monitoreo continuo",
+  "Mejora continua de los flujos",
+];
+---
+
+<section id="expertise" class="bg-white">
+  <Container class="py-20 md:py-24">
+    <SectionTitle
+      align="center"
+      kicker="Expertise"
+      title="Automatización bien hecha"
+      subtitle="Conectamos tus herramientas con patrones robustos, observabilidad y pruebas. Sin reemplazar tus sistemas, solo hacemos que trabajen solos."
+    />
+
+    <!-- Mini métricas (banda de confianza) -->
+    <div class="mt-10 grid gap-4 sm:grid-cols-3">
+      <div class="surface p-5 text-center">
+        <div class="text-2xl font-extrabold text-slate-900">48–72 h</div>
+        <div class="text-sm text-slate-600">
+          Primer flujo (según complejidad)
+        </div>
+      </div>
+      <div class="surface p-5 text-center">
+        <div class="text-2xl font-extrabold text-slate-900">10+ conectores</div>
+        <div class="text-sm text-slate-600">Stack listo para MYPEs</div>
+      </div>
+      <div class="surface p-5 text-center">
+        <div class="text-2xl font-extrabold text-slate-900">0 cambios</div>
+        <div class="text-sm text-slate-600">Usas tus sistemas actuales</div>
+      </div>
+    </div>
+
+    <!-- Grid principal -->
+    <div class="mt-12 grid gap-6 lg:grid-cols-3">
+      <!-- Col 1: Integraciones -->
+      <div class="surface p-7">
+        <div class="flex items-center gap-3">
+          <div
+            class="h-10 w-10 rounded-full bg-indigo-50 flex items-center justify-center"
+          >
+            <!-- plug icon -->
+            <svg
+              class="h-6 w-6 text-brand-indigo"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                fill="currentColor"
+                d="M7 7l3 3m4-4l3 3M10 10l4-4m1 10l3 3M6 14l3 3m1-9h4a2 2 0 012 2v4a6 6 0 11-8-8z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-slate-900">
+            Integraciones que dominamos
+          </h3>
+        </div>
+
+        <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {
+            tools.map((t) => (
+              <div class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2">
+                <svg
+                  class="h-4 w-4 text-brand-indigo"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M12 4a8 8 0 100 16 8 8 0 000-16zm-1 5h2v6h-2V9zm0 8h2v2h-2v-2z"
+                  />
+                </svg>
+                <span class="text-sm text-slate-800">{t.label}</span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Col 2: Buenas prácticas -->
+      <div class="surface p-7">
+        <div class="flex items-center gap-3">
+          <div
+            class="h-10 w-10 rounded-full bg-indigo-50 flex items-center justify-center"
+          >
+            <!-- shield check -->
+            <svg
+              class="h-6 w-6 text-brand-indigo"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                fill="currentColor"
+                d="M12 3l7 4v5c0 5-3.5 9-7 9s-7-4-7-9V7l7-4zm-1 10l-2-2 1.4-1.4L11 10.2l3.6-3.6L16 8l-5 5z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-slate-900">Buenas prácticas</h3>
+        </div>
+
+        <ul class="mt-5 space-y-2 text-slate-700">
+          {
+            practices.map((p) => (
+              <li class="flex items-start gap-2">
+                <svg
+                  class="mt-1 h-5 w-5 text-brand-indigo"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span>{p}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Col 3: Observabilidad & calidad -->
+      <div class="surface p-7">
+        <div class="flex items-center gap-3">
+          <div
+            class="h-10 w-10 rounded-full bg-indigo-50 flex items-center justify-center"
+          >
+            <!-- activity -->
+            <svg
+              class="h-6 w-6 text-brand-indigo"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path fill="currentColor" d="M3 12h4l2-6 4 12 2-6h6"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-slate-900">
+            Observabilidad & calidad
+          </h3>
+        </div>
+
+        <ul class="mt-5 space-y-2 text-slate-700">
+          {
+            quality.map((q) => (
+              <li class="flex items-start gap-2">
+                <svg
+                  class="mt-1 h-5 w-5 text-brand-indigo"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span>{q}</span>
+              </li>
+            ))
+          }
+        </ul>
+
+        <div
+          class="mt-6 rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-700"
+        >
+          <div class="flex items-center gap-2">
+            <svg
+              class="h-5 w-5 text-brand-indigo"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                fill="currentColor"
+                d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 5v6h4v2h-6V7h2z"
+              ></path>
+            </svg>
+            Objetivo de disponibilidad: <b>alto</b> (según SLA acordado).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-10 text-center">
+      <CTAButton href={CONTACT.whatsappUrl} text="Quiero un diagnóstico" />
+    </div>
+  </Container>
+</section>

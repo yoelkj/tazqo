@@ -1,0 +1,26 @@
+---
+const { kicker, title, subtitle, align = "center" } = Astro.props;
+const isCenter = align === "center";
+---
+
+<div
+  class={`flex flex-col ${isCenter ? "items-center text-center" : "items-start text-left"}`}
+>
+  {
+    kicker && (
+      <p class="uppercase tracking-[0.18em] text-[0.78rem] text-brand-indigo">
+        {kicker}
+      </p>
+    )
+  }
+  <h2 class="h2 mt-2 text-slate-900">{title}</h2>
+  {
+    subtitle && (
+      <p
+        class={`mt-3 text-slate-600 ${isCenter ? "measure mx-auto" : "measure"}`}
+      >
+        {subtitle}
+      </p>
+    )
+  }
+</div>
