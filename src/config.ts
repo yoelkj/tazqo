@@ -49,7 +49,7 @@ const UTM = "?utm_source=landing&utm_medium=cta&utm_campaign=whatsapp";
 const WA_TEXT = `${WA_MSG} ${SITE_URL}${UTM}`;
 
 export const CONTACT = {
-  email: import.meta.env.PUBLIC_CONTACT_EMAIL ?? "hola@tazqo.com",
+  email: import.meta.env.PUBLIC_CONTACT_EMAIL ?? "yoel.velasquez.valencia@gmail.com",
   tel:   import.meta.env.PUBLIC_TEL ?? "+51 900 000 000",
   whatsappUrl: `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(WA_TEXT)}`,
 };

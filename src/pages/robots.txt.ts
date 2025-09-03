@@ -1,37 +1,43 @@
-/* src/pages/robots.txt.ts
- * Robots.txt dinámico — estilo Frevvo (sin archivos en /public)
+// src/pages/robots.txt.ts
+/**
+ * robots.txt dinámico
+ * - Prioriza SITE_URL de tu config
+ * - Luego PUBLIC_SITE_URL del .env
+ * - Y por último el origin del request (fallback)
  */
-import type { APIRoute } from 'astro';
+import type { APIRoute } from "astro";
+import { SITE_URL } from "../config"; // <- ruta correcta desde /pages
 
-let SITE_URL_CONST: string | undefined;
-try {
-  // @ts-ignore - el proyecto puede o no tener este módulo
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  SITE_URL_CONST = (await import('../../config/index.ts')).SITE_URL as string | undefined;
-} catch (_) {
-  // sin config, usamos env
-}
+export const GET: APIRoute = async ({ request }) => {
+  const origin = new URL(request.url).origin;
 
-const site = (SITE_URL_CONST ?? (import.meta.env.SITE_URL as string) ?? 'https://tazqo.com').replace(/\/$/, '');
+  const base = (
+    SITE_URL ||
+    (import.meta.env.PUBLIC_SITE_URL as string | undefined) ||
+    origin
+  )
+    .replace(/\/+$/, ""); // sin / final
 
-// Ajusta aquí lo que NO quieres indexar (si hubiera rutas privadas)
-const disallow: string[] = [
-  // '/admin',
-  // '/api',
-];
+  // Si alguna ruta debe bloquearse, añade aquí: p.ej. "/admin"
+  const DISALLOW: string[] = [
+    // "/admin",
+    // "/api",
+  ];
 
-const body = `User-agent: *
-Allow: /
-${disallow.map((p) => `Disallow: ${p}`).join('\n')}
+  const body =
+    [
+      "User-agent: *",
+      "Allow: /",
+      ...DISALLOW.map((p) => `Disallow: ${p}`),
+      "",
+      `Sitemap: ${base}/sitemap.xml`,
+      "",
+    ].join("\n");
 
-Sitemap: ${site}/sitemap.xml
-`.trim() + "\n";
-
-export const GET: APIRoute = async () => {
   return new Response(body, {
     headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-      'Cache-Control': 'public, max-age=86400, s-maxage=86400',
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "public, max-age=86400, s-maxage=86400",
     },
   });
 };

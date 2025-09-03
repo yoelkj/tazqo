@@ -1,0 +1,34 @@
+<svg width="420" height="820" viewBox="0 0 420 820" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="shadow" x="-30" y="-30" width="480" height="880" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="14" stdDeviation="24" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  <!-- Frame -->
+  <rect x="10" y="10" width="400" height="800" rx="60" fill="#0b1220"/>
+  <rect x="14" y="14" width="392" height="792" rx="56" fill="#0b1220" stroke="rgba(255,255,255,.08)"/>
+  <!-- Notch -->
+  <rect x="145" y="28" width="130" height="22" rx="11" fill="#0b1220"/>
+  <!-- Screen -->
+  <g filter="url(#shadow)">
+    <rect x="30" y="60" width="360" height="740" rx="36" fill="white"/>
+  </g>
+  <!-- UI fake grid -->
+  <rect x="54" y="86" width="100" height="16" rx="8" fill="#e2e8f0"/>
+  <rect x="54" y="114" width="250" height="10" rx="5" fill="#e2e8f0"/>
+  <rect x="54" y="140" width="180" height="10" rx="5" fill="#e2e8f0"/>
+  <!-- cards -->
+  <rect x="54" y="178" width="92" height="92" rx="18" fill="#f1f5f9"/>
+  <rect x="160" y="178" width="92" height="92" rx="18" fill="#f1f5f9"/>
+  <rect x="266" y="178" width="92" height="92" rx="18" fill="#f1f5f9"/>
+  <rect x="54" y="286" width="92" height="92" rx="18" fill="#f1f5f9"/>
+  <rect x="160" y="286" width="92" height="92" rx="18" fill="#f1f5f9"/>
+  <rect x="266" y="286" width="92" height="92" rx="18" fill="#f1f5f9"/>
+  <!-- list -->
+  <rect x="54" y="404" width="304" height="14" rx="7" fill="#e2e8f0"/>
+  <rect x="54" y="430" width="260" height="10" rx="5" fill="#e2e8f0"/>
+  <rect x="54" y="456" width="304" height="14" rx="7" fill="#e2e8f0"/>
+  <rect x="54" y="482" width="220" height="10" rx="5" fill="#e2e8f0"/>
+  <!-- bottom nav dots -->
+  <circle cx="210" cy="770" r="4" fill="#cbd5e1"/>
+</svg>

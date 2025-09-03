@@ -1,0 +1,21 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F8FAFC"/>
+    </linearGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feOffset dx="0" dy="10" in="SourceAlpha" result="off"/>
+      <feGaussianBlur in="off" stdDeviation="14" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.18 0" result="shadow"/>
+      <feBlend in="SourceGraphic" in2="shadow" mode="normal"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="720" fill="url(#bg)"/>
+  <text x="600" y="100" text-anchor="middle" font-family="Inter, system-ui" font-size="44" font-weight="700" fill="#0B1220">¿Tu negocio pierde tiempo en tareas manuales?</text>
+  <g transform="translate(120,160)" font-family="Inter, system-ui" font-size="22" fill="#0B1220">
+    <g filter="url(#shadow)"><rect x="0" y="0" width="300" height="180" rx="20" fill="#fff"/><text x="24" y="56">❌ Revisas reportes a mano</text><text x="24" y="100">❌ Pierdes pedidos en WhatsApp</text></g>
+    <g filter="url(#shadow)" transform="translate(340,0)"><rect x="0" y="0" width="300" height="180" rx="20" fill="#fff"/><text x="24" y="56">❌ Se olvidan de confirmar citas</text><text x="24" y="100">❌ No generas facturas a tiempo</text></g>
+    <g filter="url(#shadow)" transform="translate(680,0)"><rect x="0" y="0" width="300" height="180" rx="20" fill="#fff"/><text x="24" y="56">❌ No das seguimiento a clientes</text><text x="24" y="100">❌ Procesos duplicados</text></g>
+  </g>
+</svg>
