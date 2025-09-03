@@ -1,17 +1,10 @@
----
-/* Barra de progreso + GoTop. Invisible hasta que el usuario haga scroll. */
----
-
-<!-- Barra de progreso (oculta inicialmente) -->
+<!-- src/components/ScrollUI.astro --><!-- Barra de progreso full-width + botón GoTop --><!-- Barra de progreso (full width desde el borde izquierdo) -->
 <div
   id="progressWrap"
-  class="hidden fixed inset-x-0 top-16 z-40 pointer-events-none"
+  class="hidden fixed left-0 right-0 z-40 pointer-events-none"
 >
-  <div class="mx-auto max-w-7xl px-4">
-    <div class="h-[3px] bg-slate-200/50 rounded-full overflow-hidden">
-      <div id="progressBar" class="h-full bg-brand-indigo" style="width:0%">
-      </div>
-    </div>
+  <div class="h-[3px] bg-slate-200/60 overflow-hidden">
+    <div id="progressBar" class="h-full bg-brand-indigo" style="width:0%"></div>
   </div>
 </div>
 
@@ -31,11 +24,20 @@
 </button>
 
 <style is:inline>
-  /* Si el menú móvil está abierto, ocultar el botón para evitar superposición */
+  /* Ubicar la barra justo debajo del header fijo (usa var global si existe) */
+  #progressWrap {
+    top: calc(var(--header-h, 64px));
+  }
+
+  /* Ocultar GoTop cuando el menú móvil está abierto (evita superposición) */
   body.menu-open #goTop {
     display: none;
   }
 
+  /* Suavizado del avance (respeta reduced motion) */
+  #progressBar {
+    transition: width 80ms linear;
+  }
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto !important;
@@ -51,29 +53,31 @@
     const wrap = document.getElementById("progressWrap");
     const bar = document.getElementById("progressBar");
     const btn = document.getElementById("goTop");
-    const THRESHOLD = 8; // px para empezar a mostrar la barra
 
-    // Ajusta la posición a la altura real del header si existe
-    const header = document.querySelector("header");
-    if (header) wrap.style.top = (header.offsetHeight || 64) + "px";
+    if (!wrap || !bar || !btn) return;
 
-    function update() {
+    const SHOW_BAR_AFTER = 8; // px para empezar a mostrar la barra
+    const SHOW_BTN_AFTER = 300; // px para mostrar el botón
+
+    function updateUI() {
       const scrolled = window.scrollY || document.documentElement.scrollTop;
-      const max =
+      const max = Math.max(
+        1,
         document.documentElement.scrollHeight -
-          document.documentElement.clientHeight || 1;
+          document.documentElement.clientHeight
+      );
       const pct = Math.min(100, Math.max(0, (scrolled / max) * 100));
       bar.style.width = pct + "%";
 
       // Mostrar/ocultar barra
-      if (scrolled > THRESHOLD) wrap.classList.remove("hidden");
+      if (scrolled > SHOW_BAR_AFTER) wrap.classList.remove("hidden");
       else {
         wrap.classList.add("hidden");
         bar.style.width = "0%";
       }
 
       // Mostrar/ocultar botón
-      if (scrolled > 300) btn.classList.remove("hidden");
+      if (scrolled > SHOW_BTN_AFTER) btn.classList.remove("hidden");
       else btn.classList.add("hidden");
     }
 
@@ -84,7 +88,7 @@
       () => {
         if (!ticking) {
           requestAnimationFrame(() => {
-            update();
+            updateUI();
             ticking = false;
           });
           ticking = true;
@@ -98,7 +102,7 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
-    // Estado inicial (oculto)
-    update();
+    // Estado inicial
+    updateUI();
   })();
 </script>

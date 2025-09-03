@@ -1,40 +1,76 @@
 ---
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import ScrollUI from "../components/ScrollUI.astro";
+import CookieConsent from "../components/CookieConsent.astro";
 import { BRAND, SITE_URL } from "../config";
 import "../styles/base.css";
-import ScrollUI from "../components/ScrollUI.astro";
 
-const { pageTitle, pageDescription } = Astro.props;
+// Compat: props antiguas y nuevas
+const {
+  pageTitle,
+  pageDescription,
+  robots: robotsProp,
+  title: legacyTitle,
+  description: legacyDesc,
+} = Astro.props;
 
-const title = pageTitle ?? `${BRAND.name} — Automatización para MYPEs`;
+const title =
+  pageTitle ?? legacyTitle ?? `${BRAND.name} — Automatización para MYPEs`;
+
 const description =
   pageDescription ??
+  legacyDesc ??
   "Automatizaciones express para MYPEs: pedidos, reportes, citas y facturación conectando tus sistemas actuales, con observabilidad y control.";
 
-const schema = {
+// Robots: noindex en dev
+const robotsBase = robotsProp ?? "index,follow";
+const isDev = import.meta.env.DEV;
+const robots = isDev ? "noindex, nofollow" : robotsBase;
+
+// Canonicals dinámicos
+const base = (SITE_URL || "https://tareas.velcodi.com").replace(/\/+$/, "");
+const pathname = Astro.url?.pathname || "/";
+const canonicalUrl = `${base}${pathname}`;
+const ogImageUrl = `${base}/og-tazqo.png`;
+
+// Idioma (mono-idioma ES)
+const localeTag = BRAND.locale || "es-PE";
+const htmlLang = localeTag.slice(0, 2);
+const ogLocale = localeTag.replace("-", "_");
+
+// JSON-LD
+const schemaOrg = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: BRAND?.name || "Tazqo",
-  url: SITE_URL,
+  url: base,
   logo: "/favicon.svg",
+  inLanguage: localeTag,
 };
+
+// GA4 desde .env (compartido entre subdominios)
+const GA_ID = import.meta.env.PUBLIC_GA_ID || ""; // ej. G-XXXXXXX
 ---
 
-<html lang={BRAND.locale || "es"} class="bg-[color:var(--canvas)]">
+<html lang={htmlLang} class="bg-[color:var(--canvas)]">
   <head>
     <meta charset="utf-8" />
+    <meta http-equiv="content-language" content={localeTag} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="robots" content="index,follow" />
+    <meta name="robots" content={robots} />
     <meta name="color-scheme" content="light" />
+    <meta name="format-detection" content="telephone=no" />
 
-    <!-- Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
     <style>
       body{font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;}
     </style>
@@ -46,45 +82,104 @@ const schema = {
     <meta name="theme-color" content="#6659F5" />
 
     <!-- Canonical & Open Graph -->
-    <link rel="canonical" href={SITE_URL} />
+    <link rel="canonical" href={canonicalUrl} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={BRAND.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="/og-tazqo.png" />
-    <meta property="og:url" content={SITE_URL} />
-    <meta property="og:locale" content={BRAND.locale?.replace("-", "_") || "es_PE"} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content={ogLocale} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="/og-tazqo.png" />
+    <meta name="twitter:image" content={ogImageUrl} />
 
-    <!-- JSON-LD: Organization -->
+    <!-- JSON-LD -->
     <script type="application/ld+json" is:inline>
-      {JSON.stringify(schema)}
+      {JSON.stringify(schemaOrg)}
+    </script>
+    <script type="application/ld+json" is:inline>
+      {JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: BRAND.name,
+        url: base,
+        inLanguage: localeTag,
+        potentialAction: {
+          "@type": "SearchAction",
+          target: `${base}/?q={search_term_string}`,
+          "query-input": "required name=search_term_string",
+        },
+      })}
     </script>
 
-    <!-- JSON-LD: WebSite + SearchAction -->
-    <script type="application/ld+json" is:inline>
-    {JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": BRAND.name,
-      "url": SITE_URL,
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": `${SITE_URL}/?q={search_term_string}`,
-        "query-input": "required name=search_term_string"
-      }
-    })}
+    <!-- Bots previews amplios -->
+    <meta name="googlebot" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="bingbot"  content="max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+    <!-- Hints GA -->
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
+
+    <!-- Loader GA4: tras consentimiento -->
+    <script is:inline data-ga={GA_ID}>
+      (function () {
+        var el = document.currentScript;
+        var GA_ID = (el && el.dataset && el.dataset.ga) || "";
+        if (!GA_ID) return;
+
+        function alreadyLoaded(){ return !!document.getElementById("ga4-js"); }
+
+        // API pública para el banner
+        window.__tazqo_enable_analytics = window.__tazqo_enable_analytics || function () {
+          if (alreadyLoaded()) return;
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){ dataLayer.push(arguments); }
+          window.gtag = gtag;
+
+          var s = document.createElement("script");
+          s.async = true;
+          s.id = "ga4-js";
+          s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
+          document.head.appendChild(s);
+
+          gtag("js", new Date());
+          gtag("consent", "default", {
+            ad_storage: "denied",
+            ad_user_data: "denied",
+            ad_personalization: "denied",
+            analytics_storage: "granted"
+          });
+
+          // Compartir sesión entre subdominios de velcodi.com
+          var cookieDomain = location.hostname.endsWith("velcodi.com")
+            ? "velcodi.com"
+            : location.hostname;
+
+          gtag("config", GA_ID, { anonymize_ip: true, cookie_domain: cookieDomain });
+        };
+
+        // Autocarga si ya había consentimiento previo en cualquier subdominio
+        var c = document.cookie;
+        if (c.includes("cookie_consent=allow") || c.includes("cookie_consent=all")) {
+          window.__tazqo_enable_analytics();
+        }
+      })();
     </script>
   </head>
 
   <body class="text-slate-900">
-    <!-- Accesibilidad: saltar al contenido -->
-    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50
-      inline-block px-3 py-2 rounded-md bg-white border border-slate-200">
-      Saltar al contenido
-    </a>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50
+      inline-block px-3 py-2 rounded-md bg-white border border-slate-200"
+    >Saltar al contenido</a>
 
     <Header />
 
@@ -94,5 +189,6 @@ const schema = {
 
     <Footer />
     <ScrollUI />
+    <CookieConsent />
   </body>
 </html>

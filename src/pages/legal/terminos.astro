@@ -1,0 +1,338 @@
+---
+// src/pages/legal/terminos.astro
+import LandingLayout from "../../layouts/LandingLayout.astro";
+import Container from "../../components/Container.astro";
+import CTAButton from "../../components/CTAButton.astro";
+import SectionTitle from "../../components/SectionTitle.astro";
+import { BRAND, CONTACT, TAX } from "../../config";
+
+const updatedAt = "28 agosto 2025";
+---
+
+<LandingLayout
+  title="Términos y Condiciones – Tazqo"
+  description={`Condiciones de uso y contratación de ${BRAND.name}. Lee con atención antes de utilizar nuestros servicios.`}
+  robots="noindex,follow"
+>
+  <!-- HERO (centrado) -->
+  <section class="relative hero-bg border-b hero-top">
+    <div class="absolute inset-0 bg-grid opacity-35 pointer-events-none"></div>
+    <Container class="relative py-16 md:py-20 text-center md:max-w-3xl mx-auto">
+      <h1 class="h1">Términos y Condiciones</h1>
+      <p class="measure mt-4 text-slate-600 mx-auto">
+        Estos Términos y Condiciones (los “Términos”) regulan el acceso y uso
+        del sitio web y los servicios de {BRAND.name}. Al usar el sitio o
+        contratar nuestros servicios, aceptas estos Términos.
+      </p>
+      <p class="mt-2 text-sm text-slate-500">
+        Última actualización: {updatedAt}
+      </p>
+    </Container>
+  </section>
+
+  <!-- CONTENIDO -->
+  <section class="bg-white">
+    <Container class="py-10 md:py-16">
+      <!-- Índice (centrado, ancho cómodo) -->
+      <div
+        class="surface p-5 rounded-xl border text-sm mx-auto max-w-3xl text-center"
+      >
+        <div class="font-semibold text-slate-700 mb-2">Contenido</div>
+        <nav class="grid sm:grid-cols-2 gap-2 place-items-center">
+          <a href="#objeto" class="link">1. Objeto</a>
+          <a href="#responsable" class="link">2. Responsable e identificación</a
+          >
+          <a href="#definiciones" class="link">3. Definiciones</a>
+          <a href="#alcance" class="link">4. Alcance y entregables</a>
+          <a href="#uso" class="link">5. Uso permitido y prohibido</a>
+          <a href="#contratacion" class="link">6. Contratación y pagos</a>
+          <a href="#precios-impuestos" class="link">7. Precios e impuestos</a>
+          <a href="#propiedad" class="link">8. Propiedad intelectual</a>
+          <a href="#confidencialidad" class="link">9. Confidencialidad</a>
+          <a href="#datos" class="link">10. Protección de datos</a>
+          <a href="#soporte" class="link">11. Soporte y SLA</a>
+          <a href="#responsabilidad" class="link">12. Garantías y limitación</a>
+          <a href="#terceros" class="link">13. Servicios de terceros</a>
+          <a href="#modificaciones" class="link">14. Cambios en los Términos</a>
+          <a href="#terminacion" class="link">15. Terminación</a>
+          <a href="#ley" class="link">16. Ley aplicable y jurisdicción</a>
+          <a href="#contacto" class="link">17. Contacto</a>
+        </nav>
+      </div>
+
+      <!-- Secciones (alineación izquierda, listas legibles) -->
+      <div class="mt-10 space-y-10 md:space-y-12">
+        <!-- 1 -->
+        <section id="objeto">
+          <SectionTitle kicker="Términos" title="1. Objeto" />
+          <p class="measure text-slate-700">
+            Estos Términos establecen las condiciones bajo las cuales {
+              BRAND.name
+            }
+            ofrece servicios de automatización, integración y soporte tecnológico
+            a empresas y profesionales.
+          </p>
+        </section>
+
+        <!-- 2 -->
+        <section id="responsable">
+          <SectionTitle title="2. Responsable e identificación" />
+          <p class="measure text-slate-700">
+            Responsable: <strong>{TAX?.legalName || BRAND.name}</strong>.<br />
+            Marca comercial: {BRAND.name}.<br />
+            {TAX?.idType || "RUC"}: {TAX?.id || "-"}<br />
+            Email: <a class="underline" href={`mailto:${CONTACT.email}`}
+              >{CONTACT.email}</a
+            ><br />
+            WhatsApp: <a
+              class="underline"
+              target="_blank"
+              href={CONTACT.whatsappUrl}>Atención por WhatsApp</a
+            >
+          </p>
+        </section>
+
+        <!-- 3 -->
+        <section id="definiciones">
+          <SectionTitle title="3. Definiciones" />
+          <ul
+            class="list-disc pl-6 md:pl-8 leading-relaxed marker:text-slate-400 space-y-1.5 text-slate-700"
+          >
+            <li>
+              <strong>Servicios</strong>: actividades de consultoría,
+              integración, automatización y soporte
+            </li>
+            <li>
+              <strong>Entregables</strong>: configuraciones, scripts, documentos
+              y activos acordados en la propuesta
+            </li>
+            <li>
+              <strong>Propuesta</strong>: documento (o email) con alcance,
+              plazos, tarifas y condiciones comerciales
+            </li>
+          </ul>
+        </section>
+
+        <!-- 4 -->
+        <section id="alcance">
+          <SectionTitle title="4. Alcance y entregables" />
+          <p class="measure text-slate-700">
+            El alcance se define en la Propuesta aceptada. Cualquier
+            <em>solicitud de cambio</em> podrá implicar ajustes de plazo y costo.
+          </p>
+          <ul
+            class="list-disc pl-6 md:pl-8 leading-relaxed marker:text-slate-400 space-y-1.5 text-slate-700 mt-2"
+          >
+            <li>
+              Se documentarán flujos, variables sensibles y dependencias
+              críticas
+            </li>
+            <li>
+              Los accesos/credenciales provistos por el cliente son bajo su
+              exclusiva responsabilidad
+            </li>
+            <li>
+              Cuando aplique, se incluirán instrucciones de operación y
+              reversión básica
+            </li>
+          </ul>
+        </section>
+
+        <!-- 5 -->
+        <section id="uso">
+          <SectionTitle title="5. Uso permitido y prohibido" />
+          <ul
+            class="list-disc pl-6 md:pl-8 leading-relaxed marker:text-slate-400 space-y-1.5 text-slate-700"
+          >
+            <li>
+              Proveer información veraz y actualizada para la prestación del
+              servicio
+            </li>
+            <li>
+              Prohibido usar el sitio/servicios para actividades ilícitas, spam,
+              intrusión o violación de derechos de terceros
+            </li>
+            <li>
+              Respetar términos y límites de las plataformas integradas (p. ej.,
+              WhatsApp Cloud API, Google, Meta, Shopify, WooCommerce)
+            </li>
+          </ul>
+        </section>
+
+        <!-- 6 -->
+        <section id="contratacion">
+          <SectionTitle title="6. Contratación y pagos" />
+          <ul
+            class="list-disc pl-6 md:pl-8 leading-relaxed marker:text-slate-400 space-y-1.5 text-slate-700"
+          >
+            <li>
+              Las condiciones comerciales (precio, plazos, entregables) se
+              especifican en la Propuesta
+            </li>
+            <li>
+              Los pagos se realizan según lo pactado; la falta de pago puede
+              suspender el servicio
+            </li>
+            <li>
+              Suscripciones o licencias de terceros son a cargo del cliente,
+              salvo pacto distinto
+            </li>
+          </ul>
+        </section>
+
+        <!-- 7 -->
+        <section id="precios-impuestos">
+          <SectionTitle title="7. Precios e impuestos" />
+          <p class="measure text-slate-700">
+            Salvo se indique lo contrario, los precios se expresan en {
+              BRAND.currency
+            }.
+            {
+              TAX?.note && (
+                <span class="block mt-2 text-sm text-slate-600">
+                  {TAX.note}
+                </span>
+              )
+            }
+          </p>
+        </section>
+
+        <!-- 8 -->
+        <section id="propiedad">
+          <SectionTitle title="8. Propiedad intelectual" />
+          <p class="measure text-slate-700">
+            Los derechos sobre código, scripts, plantillas y documentación
+            desarrollados por {BRAND.name}
+            pertenecen a {BRAND.name}, salvo cesión o licencia pactada por
+            escrito. Las marcas y logotipos de terceros son propiedad de sus
+            titulares.
+          </p>
+        </section>
+
+        <!-- 9 -->
+        <section id="confidencialidad">
+          <SectionTitle title="9. Confidencialidad" />
+          <p class="measure text-slate-700">
+            Cada parte mantendrá confidencial la información técnica y comercial
+            recibida y la usará solo para la prestación del servicio, aplicando
+            medidas razonables de protección.
+          </p>
+        </section>
+
+        <!-- 10 -->
+        <section id="datos">
+          <SectionTitle title="10. Protección de datos" />
+          <p class="measure text-slate-700">
+            Tratamos datos personales conforme a la
+            <a class="underline" href="/legal/privacidad"
+              >Política de Privacidad</a
+            >. Al contratar, declaras haberla leído y aceptado.
+          </p>
+        </section>
+
+        <!-- 11 -->
+        <section id="soporte">
+          <SectionTitle title="11. Soporte y SLA" />
+          <ul
+            class="list-disc pl-6 md:pl-8 leading-relaxed marker:text-slate-400 space-y-1.5 text-slate-700"
+          >
+            <li>Atención en horario hábil (GMT-5), salvo acuerdo distinto</li>
+            <li>
+              Incidentes críticos: se brinda prioridad y se coordina mitigación
+            </li>
+            <li>
+              Dependencias de terceros pueden afectar tiempos de respuesta
+            </li>
+          </ul>
+        </section>
+
+        <!-- 12 -->
+        <section id="responsabilidad">
+          <SectionTitle title="12. Garantías y limitación de responsabilidad" />
+          <p class="measure text-slate-700">
+            Los servicios se prestan “tal cual”. En la medida legal, {
+              BRAND.name
+            } no será responsable por daños indirectos, lucro cesante o pérdida de
+            datos, salvo dolo o culpa grave.
+          </p>
+        </section>
+
+        <!-- 13 -->
+        <section id="terceros">
+          <SectionTitle title="13. Servicios de terceros" />
+          <p class="measure text-slate-700">
+            El sitio y los flujos pueden depender de servicios de terceros. {
+              BRAND.name
+            } no controla sus políticas, disponibilidad o cambios. Revisa los términos
+            de cada proveedor.
+          </p>
+        </section>
+
+        <!-- 14 -->
+        <section id="modificaciones">
+          <SectionTitle title="14. Cambios en los Términos" />
+          <p class="measure text-slate-700">
+            Podemos actualizar estos Términos por cambios legales u operativos.
+            La versión vigente se publica en esta página y aplica desde su
+            publicación.
+          </p>
+        </section>
+
+        <!-- 15 -->
+        <section id="terminacion">
+          <SectionTitle title="15. Terminación" />
+          <p class="measure text-slate-700">
+            Podremos terminar el servicio por incumplimiento de estos Términos o
+            de las condiciones comerciales. El cliente puede solicitar la
+            terminación conforme a la Propuesta.
+          </p>
+        </section>
+
+        <!-- 16 -->
+        <section id="ley">
+          <SectionTitle title="16. Ley aplicable y jurisdicción" />
+          <p class="measure text-slate-700">
+            Estos Términos se rigen por la legislación aplicable en la
+            jurisdicción de contratación. Salvo norma imperativa, las
+            controversias se someterán a los tribunales competentes del
+            domicilio de {TAX?.legalName || BRAND.name}.
+          </p>
+        </section>
+
+        <!-- 17 -->
+        <section id="contacto">
+          <SectionTitle title="17. Contacto" />
+          <p class="measure text-slate-700">
+            Email: <a class="underline" href={`mailto:${CONTACT.email}`}
+              >{CONTACT.email}</a
+            > · WhatsApp: <a
+              class="underline"
+              target="_blank"
+              href={CONTACT.whatsappUrl}>Atención por WhatsApp</a
+            >
+          </p>
+          <div class="mt-6">
+            <CTAButton
+              href={CONTACT.whatsappUrl}
+              text="Necesito ayuda"
+              target="_blank"
+            />
+          </div>
+        </section>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Estilo local: más aire entre header y hero -->
+  <style is:inline>
+    /* Compensa el header fijo usando --header-h; fallback 64px para evitar solape */
+    .hero-top {
+      padding-top: calc(var(--header-h, 64px) + 2.5rem);
+    }
+    @media (min-width: 768px) {
+      .hero-top {
+        padding-top: calc(var(--header-h, 64px) + 3.5rem);
+      }
+    }
+  </style>
+</LandingLayout>

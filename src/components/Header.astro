@@ -6,9 +6,17 @@ const link =
   "navlink inline-flex items-center justify-center h-10 px-3 rounded-md text-slate-700 hover:text-[color:var(--brand-indigo)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--brand-indigo)]";
 const cta =
   "inline-flex items-center justify-center h-10 px-4 rounded-lg border border-slate-200 text-slate-900 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--brand-indigo)]";
+
+// Detecta si estamos en la home para decidir si usar "#id" o "/#id"
+const isHome =
+  Astro.url.pathname === "/" ||
+  Astro.url.pathname === "/index" ||
+  Astro.url.pathname === "/index.html";
+
+const anchor = (id) => (isHome ? `#${id}` : `/#${id}`);
 ---
 
-<!-- HEADER (no contiene el panel; así evitamos conflictos con :hover) -->
+<!-- HEADER -->
 <header
   id="siteHeader"
   role="banner"
@@ -30,17 +38,18 @@ const cta =
         aria-label="Principal"
         class="hidden md:flex items-center gap-2"
       >
-        <a href="#servicios" data-spy="true" class={link}>Servicios</a>
-        <a href="#expertise" data-spy="true" class={link}>Expertise</a>
-        <a href="#como" data-spy="true" class={link}>Cómo</a>
-        <a href="#precios" data-spy="true" class={link}>Precios</a>
-        <a href="#faq" data-spy="true" class={link}>FAQ</a>
-        <a href={CONTACT.whatsappUrl} class={cta}>WhatsApp</a>
+        <a href={anchor("servicios")} data-spy="true" class={link}>Servicios</a>
+        <a href={anchor("expertise")} data-spy="true" class={link}>Expertise</a>
+        <a href={anchor("como")} data-spy="true" class={link}>Cómo</a>
+        <a href={anchor("precios")} data-spy="true" class={link}>Precios</a>
+        <a href={anchor("faq")} data-spy="true" class={link}>FAQ</a>
+        <a target="_blank" href={CONTACT.whatsappUrl} class={cta}>WhatsApp</a>
       </nav>
 
       <!-- Header móvil: CTA + hamburguesa -->
       <div class="md:hidden flex items-center gap-2">
         <a
+          target="_blank"
           href={CONTACT.whatsappUrl}
           class="inline-flex items-center justify-center h-10 px-3 rounded-lg border border-slate-200 text-slate-900 hover:bg-slate-50 text-sm"
         >
@@ -88,7 +97,7 @@ const cta =
   </div>
 </header>
 
-<!-- OVERLAY MÓVIL (fuera del header) -->
+<!-- OVERLAY MÓVIL -->
 <div
   id="mobileOverlay"
   class="md:hidden hidden fixed left-0 right-0 bottom-0 z-[70]"
@@ -107,31 +116,31 @@ const cta =
   <Container data-menu-container class="relative h-full py-4 flex flex-col">
     <nav class="flex-1 overflow-y-auto">
       <a
-        href="#servicios"
+        href={anchor("servicios")}
         data-spy="true"
         class="block px-3 py-4 text-lg text-slate-900 hover:bg-slate-50 rounded-md"
         >Servicios</a
       >
       <a
-        href="#expertise"
+        href={anchor("expertise")}
         data-spy="true"
         class="block px-3 py-4 text-lg text-slate-900 hover:bg-slate-50 rounded-md"
         >Expertise</a
       >
       <a
-        href="#como"
+        href={anchor("como")}
         data-spy="true"
         class="block px-3 py-4 text-lg text-slate-900 hover:bg-slate-50 rounded-md"
         >Cómo</a
       >
       <a
-        href="#precios"
+        href={anchor("precios")}
         data-spy="true"
         class="block px-3 py-4 text-lg text-slate-900 hover:bg-slate-50 rounded-md"
         >Precios</a
       >
       <a
-        href="#faq"
+        href={anchor("faq")}
         data-spy="true"
         class="block px-3 py-4 text-lg text-slate-900 hover:bg-slate-50 rounded-md"
         >FAQ</a
@@ -139,6 +148,7 @@ const cta =
     </nav>
     <div class="pt-4 border-t border-slate-200">
       <a
+        target="_blank"
         href={CONTACT.whatsappUrl}
         class="inline-flex w-full items-center justify-center h-12 rounded-xl border border-slate-200 bg-white font-semibold hover:bg-slate-50"
       >
@@ -164,8 +174,6 @@ const cta =
     border-bottom-color: rgba(2, 6, 23, 0.12);
     box-shadow: 0 8px 20px rgba(2, 6, 23, 0.08);
   }
-
-  /* Estado activo del link (sin subrayado) */
   .navlink {
     position: relative;
   }
@@ -195,7 +203,7 @@ const cta =
   const headerH = () => header?.offsetHeight || 64;
   const setHeaderVars = () => {
     document.documentElement.style.setProperty("--header-h", headerH() + "px");
-    overlay.style.top = headerH() + "px"; // overlay arranca justo bajo el header
+    overlay.style.top = headerH() + "px";
   };
 
   // Evitar salto por desaparición del scroll (añade padding-right al body)
@@ -232,13 +240,13 @@ const cta =
     overlay.classList.remove("hidden");
     applyBodyShift(true);
     document.documentElement.classList.add("overflow-hidden");
-    document.body.classList.add("menu-open"); // fuerza glass
+    document.body.classList.add("menu-open");
     btn.setAttribute("aria-expanded", "true");
     iconOpen.classList.add("hidden");
     iconClose.classList.remove("hidden");
 
     // Focus al primer enlace del overlay
-    const firstLink = overlay.querySelector('a[href^="#"]');
+    const firstLink = overlay.querySelector("a[href]");
     firstLink?.focus();
     overlay.addEventListener("keydown", onKeydownTrap);
   };
@@ -252,7 +260,6 @@ const cta =
     iconOpen.classList.remove("hidden");
     iconClose.classList.add("hidden");
     overlay.removeEventListener("keydown", onKeydownTrap);
-    // Restituye foco
     (lastFocused instanceof HTMLElement ? lastFocused : btn)?.focus();
   };
 
@@ -268,10 +275,13 @@ const cta =
     overlay.classList.contains("hidden") ? openMenu() : closeMenu();
   });
   backdrop?.addEventListener("click", closeMenu);
+
+  // Cierra overlay al clickear cualquier link dentro del menú (incluye "/#id" y externos)
   overlay?.addEventListener("click", (e) => {
-    const a = e.target.closest('a[href^="#"]');
+    const a = e.target.closest("a[href]");
     if (a) closeMenu();
   });
+
   window.addEventListener(
     "keydown",
     (e) => {
@@ -288,9 +298,12 @@ const cta =
     const prefersReduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
+
+    // Solo consideramos anchors de la propia página (href^="#")
     const spyLinks = Array.from(
-      document.querySelectorAll('a[data-spy="true"]')
+      document.querySelectorAll('a[data-spy="true"][href^="#"]')
     );
+
     const ids = [
       ...new Set(
         spyLinks
@@ -320,7 +333,7 @@ const cta =
       window.scrollTo({ top: y, behavior: prefersReduced ? "auto" : "smooth" });
     }
 
-    // Click en anchors con offset
+    // Click en anchors con offset (solo si href empieza con "#")
     spyLinks.forEach((a) => {
       a.addEventListener("click", (e) => {
         const href = a.getAttribute("href") || "";
@@ -330,41 +343,40 @@ const cta =
       });
     });
 
-    // IO cuando el DOM YA existe
-    const buildObserver = () =>
-      new IntersectionObserver(
-        (entries) => {
-          entries.forEach((ent) => {
-            if (ent.isIntersecting) setActive(ent.target.id);
+    if (sections.length) {
+      const buildObserver = () =>
+        new IntersectionObserver(
+          (entries) =>
+            entries.forEach(
+              (ent) => ent.isIntersecting && setActive(ent.target.id)
+            ),
+          { rootMargin: `-${headerH() + 24}px 0px -55% 0px`, threshold: 0.01 }
+        );
+      let io = buildObserver();
+      sections.forEach((s) => io.observe(s));
+
+      // Corrige si hay hash al cargar
+      if (location.hash)
+        setTimeout(() => scrollToId(location.hash.slice(1)), 10);
+
+      // Re-crear al cambiar altura del header / resize
+      let rAf;
+      window.addEventListener(
+        "resize",
+        () => {
+          cancelAnimationFrame(rAf);
+          rAf = requestAnimationFrame(() => {
+            setHeaderVars();
+            io.disconnect();
+            io = buildObserver();
+            sections.forEach((s) => io.observe(s));
           });
         },
-        { rootMargin: `-${headerH() + 24}px 0px -55% 0px`, threshold: 0.01 }
+        { passive: true }
       );
-
-    let io = buildObserver();
-    sections.forEach((s) => io.observe(s));
-
-    // Corrige si hay hash al cargar
-    if (location.hash) setTimeout(() => scrollToId(location.hash.slice(1)), 10);
-
-    // Re-crear al cambiar altura del header / resize
-    let rAf;
-    window.addEventListener(
-      "resize",
-      () => {
-        cancelAnimationFrame(rAf);
-        rAf = requestAnimationFrame(() => {
-          setHeaderVars();
-          io.disconnect();
-          io = buildObserver();
-          sections.forEach((s) => io.observe(s));
-        });
-      },
-      { passive: true }
-    );
+    }
   }
 
-  // Espera al DOM
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initNav, { once: true });
   } else {

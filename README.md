@@ -65,17 +65,6 @@ El proyecto puede desplegarse en cualquier servicio estático o SSR, como:
 
 ---
 
-## 📋 Pendiente
-
-- [ ] Integrar plugin de sitemap (`@astrojs/sitemap`)
-- [ ] Completar favicon y `safari-pinned-tab.svg`
-- [ ] Ajustar tipografías en header/footer para mejor proporción
-- [ ] Añadir enlaces a redes sociales en footer
-- [ ] Integrar analítica con [Plausible](https://plausible.io/)
-- [ ] Revisión de accesibilidad con Lighthouse
-
----
-
 ## 👨‍💻 Autor
 
 Proyecto desarrollado por **Velcodi**  

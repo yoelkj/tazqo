@@ -1,0 +1,201 @@
+---
+// src/pages/legal/cookies.astro
+import LandingLayout from "../../layouts/LandingLayout.astro";
+import Container from "../../components/Container.astro";
+import CTAButton from "../../components/CTAButton.astro";
+import SectionTitle from "../../components/SectionTitle.astro";
+import { BRAND, CONTACT, TAX } from "../../config";
+
+const updatedAt = "28 agosto 2025";
+---
+
+<LandingLayout
+  title="Política de Cookies – Tazqo"
+  description="Qué son las cookies, cuáles usamos y cómo gestionarlas."
+  robots="noindex,follow"
+>
+  <!-- HERO (centrado con offset del header) -->
+  <section class="relative hero-bg border-b hero-top">
+    <div class="absolute inset-0 bg-grid opacity-35 pointer-events-none"></div>
+    <Container class="relative py-16 md:py-20 text-center md:max-w-3xl mx-auto">
+      <h1 class="h1">Política de Cookies</h1>
+      <p class="measure mt-4 text-slate-600 mx-auto">
+        Esta política explica qué son las cookies y tecnologías similares, qué
+        tipos usamos en {BRAND.name} y cómo puedes gestionarlas.
+      </p>
+      <p class="mt-2 text-sm text-slate-500">
+        Última actualización: {updatedAt}
+      </p>
+    </Container>
+  </section>
+
+  <!-- CONTENIDO -->
+  <section class="bg-white">
+    <Container class="py-10 md:py-16">
+      <!-- Índice (centrado, ancho cómodo) -->
+      <div
+        class="surface p-5 rounded-xl border text-sm mx-auto max-w-3xl text-center"
+      >
+        <div class="font-semibold text-slate-700 mb-2">Contenido</div>
+        <nav class="grid sm:grid-cols-2 gap-2 place-items-center">
+          <a href="#responsable" class="link">1. Responsable</a>
+          <a href="#que-son" class="link">2. ¿Qué son las cookies?</a>
+          <a href="#tipos" class="link">3. Tipos de cookies</a>
+          <a href="#que-usamos" class="link">4. Cookies usadas</a>
+          <a href="#gestionar" class="link">5. Cómo gestionar/desactivar</a>
+          <a href="#cambios" class="link">6. Cambios en esta política</a>
+          <a href="#contacto" class="link">7. Contacto</a>
+        </nav>
+      </div>
+
+      <div class="mt-10 space-y-10 md:space-y-12">
+        <!-- 1 -->
+        <section id="responsable">
+          <SectionTitle kicker="Cookies" title="1. Responsable" />
+          <p class="measure text-slate-700">
+            Responsable: <strong>{TAX?.legalName || BRAND.name}</strong>.<br />
+            Marca comercial: {BRAND.name}.<br />
+            {TAX?.idType || "RUC"}: {TAX?.id || "-"}<br />
+            Consulta también nuestra <a
+              class="underline"
+              href="/legal/privacidad">Política de Privacidad</a
+            >.
+          </p>
+        </section>
+
+        <!-- 2 -->
+        <section id="que-son">
+          <SectionTitle title="2. ¿Qué son las cookies?" />
+          <p class="measure text-slate-700">
+            Las cookies son pequeños archivos que un sitio web guarda en tu
+            dispositivo para recordar información sobre tu visita. Algunas son
+            necesarias para que la web funcione; otras ayudan a medir el uso o a
+            personalizar contenidos.
+          </p>
+        </section>
+
+        <!-- 3 -->
+        <section id="tipos">
+          <SectionTitle title="3. Tipos de cookies" />
+          <ul
+            class="list-disc pl-6 md:pl-8 leading-relaxed marker:text-slate-400 space-y-1.5 text-slate-700"
+          >
+            <li>
+              <strong>Necesarias</strong>: imprescindibles para el
+              funcionamiento básico del sitio
+            </li>
+            <li>
+              <strong>Preferencias</strong>: recuerdan tus ajustes (por ejemplo,
+              idioma)
+            </li>
+            <li>
+              <strong>Analíticas</strong>: permiten comprender el uso del sitio
+              de forma agregada
+            </li>
+            <li>
+              <strong>Marketing</strong>: ayudan a medir campañas y audiencias
+            </li>
+          </ul>
+        </section>
+
+        <!-- 4 -->
+        <section id="que-usamos">
+          <SectionTitle title="4. Cookies usadas en este sitio" />
+          <div class="overflow-x-auto">
+            <table
+              class="w-full text-left text-sm border border-slate-200 rounded-lg"
+            >
+              <thead class="bg-slate-50 text-slate-700">
+                <tr>
+                  <th class="p-3 border-b">Nombre</th>
+                  <th class="p-3 border-b">Tipo</th>
+                  <th class="p-3 border-b">Finalidad</th>
+                  <th class="p-3 border-b">Duración</th>
+                </tr>
+              </thead>
+              <tbody class="text-slate-700">
+                <tr>
+                  <td class="p-3 border-b">cookie_consent</td>
+                  <td class="p-3 border-b">Necesaria</td>
+                  <td class="p-3 border-b"
+                    >Guardar tu preferencia de consentimiento</td
+                  >
+                  <td class="p-3 border-b">6–12 meses</td>
+                </tr>
+                <tr>
+                  <td class="p-3 border-b">_plausible</td>
+                  <td class="p-3 border-b">Analítica</td>
+                  <td class="p-3 border-b"
+                    >Métricas de uso agregadas y anónimas (si se activa
+                    Plausible)</td
+                  >
+                  <td class="p-3 border-b">Variable</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="measure text-slate-700 mt-4">
+            Esta tabla puede actualizarse cuando incorporemos o retiremos
+            proveedores. Revisa esta página periódicamente.
+          </p>
+        </section>
+
+        <!-- 5 -->
+        <section id="gestionar">
+          <SectionTitle title="5. ¿Cómo gestionar o desactivar cookies?" />
+          <p class="measure text-slate-700">
+            Puedes permitir, bloquear o eliminar cookies desde la configuración
+            de tu navegador. Consulta la ayuda de tu navegador (Chrome, Firefox,
+            Safari, Edge) para ver los pasos. Si bloqueas ciertas cookies, es
+            posible que algunas partes del sitio no funcionen correctamente.
+          </p>
+          <p class="measure text-slate-700 mt-2">
+            Si ves un banner de consentimiento, puedes <strong
+              >actualizar tu preferencia</strong
+            > desde ese mismo aviso cuando aparezca nuevamente.
+          </p>
+        </section>
+
+        <!-- 6 -->
+        <section id="cambios">
+          <SectionTitle title="6. Cambios en esta política" />
+          <p class="measure text-slate-700">
+            Podemos modificar esta política para reflejar cambios legales o
+            técnicos. Publicaremos la versión vigente en esta misma página.
+          </p>
+        </section>
+
+        <!-- 7 -->
+        <section id="contacto">
+          <SectionTitle title="7. Contacto" />
+          <p class="measure text-slate-700">
+            Si tienes preguntas sobre esta política de cookies, escríbenos a
+            <a class="underline" href={`mailto:${CONTACT.email}`}
+              >{CONTACT.email}</a
+            >.
+          </p>
+          <div class="mt-6">
+            <CTAButton
+              target="_blank"
+              href={CONTACT.whatsappUrl}
+              text="Necesito ayuda"
+            />
+          </div>
+        </section>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Estilo local: más aire entre header y hero -->
+  <style is:inline>
+    /* Compensa el header fijo usando --header-h; fallback 64px para evitar solape */
+    .hero-top {
+      padding-top: calc(var(--header-h, 64px) + 2.5rem);
+    }
+    @media (min-width: 768px) {
+      .hero-top {
+        padding-top: calc(var(--header-h, 64px) + 3.5rem);
+      }
+    }
+  </style>
+</LandingLayout>

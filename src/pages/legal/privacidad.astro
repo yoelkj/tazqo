@@ -1,0 +1,228 @@
+---
+// src/pages/legal/privacidad.astro
+import LandingLayout from "../../layouts/LandingLayout.astro";
+import Container from "../../components/Container.astro";
+import CTAButton from "../../components/CTAButton.astro";
+import SectionTitle from "../../components/SectionTitle.astro";
+import { BRAND, CONTACT, TAX } from "../../config";
+
+const updatedAt = "28 agosto 2025";
+---
+
+<LandingLayout
+  title="Política de Privacidad – Tazqo"
+  description="Cómo recopilamos, usamos y protegemos tus datos personales en Tazqo."
+  robots="noindex,follow"
+>
+  <!-- HERO (centrado con offset del header) -->
+  <section class="relative hero-bg border-b hero-top">
+    <div class="absolute inset-0 bg-grid opacity-35 pointer-events-none"></div>
+    <Container class="relative py-16 md:py-20 text-center md:max-w-3xl mx-auto">
+      <h1 class="h1">Política de Privacidad</h1>
+      <p class="measure mt-4 text-slate-600 mx-auto">
+        En {BRAND.name} respetamos tu privacidad. Aquí explicamos qué datos tratamos,
+        con qué finalidad y cómo puedes ejercer tus derechos.
+      </p>
+      <p class="mt-2 text-sm text-slate-500">
+        Última actualización: {updatedAt}
+      </p>
+    </Container>
+  </section>
+
+  <!-- CONTENIDO -->
+  <section class="bg-white">
+    <Container class="py-10 md:py-16">
+      <!-- Índice (centrado, ancho cómodo) -->
+      <div
+        class="surface p-5 rounded-xl border text-sm mx-auto max-w-3xl text-center"
+      >
+        <div class="font-semibold text-slate-700 mb-2">Contenido</div>
+        <nav class="grid sm:grid-cols-2 gap-2 place-items-center">
+          <a href="#responsable" class="link">1. Responsable del tratamiento</a>
+          <a href="#datos" class="link">2. Datos que recopilamos</a>
+          <a href="#finalidades" class="link">3. Finalidades del tratamiento</a>
+          <a href="#baselegal" class="link">4. Base legal</a>
+          <a href="#conservacion" class="link">5. Plazos de conservación</a>
+          <a href="#compartir" class="link">6. Con quién compartimos datos</a>
+          <a href="#internacionales" class="link"
+            >7. Transferencias internacionales</a
+          >
+          <a href="#derechos" class="link">8. Tus derechos</a>
+          <a href="#seguridad" class="link">9. Medidas de seguridad</a>
+          <a href="#contacto" class="link">10. Contacto</a>
+        </nav>
+      </div>
+
+      <!-- Secciones (alineación izquierda, listas legibles) -->
+      <div class="mt-10 space-y-10 md:space-y-12">
+        <!-- 1 -->
+        <section id="responsable">
+          <SectionTitle
+            kicker="Privacidad"
+            title="1. Responsable del tratamiento"
+          />
+          <p class="measure text-slate-700">
+            Responsable: <strong>{TAX?.legalName || BRAND.name}</strong>.<br />
+            Marca comercial: {BRAND.name}.<br />
+            {TAX?.idType || "RUC"}: {TAX?.id || "-"}<br />
+            Email: <a class="underline" href={`mailto:${CONTACT.email}`}
+              >{CONTACT.email}</a
+            ><br />
+            WhatsApp: <a
+              class="underline"
+              target="_blank"
+              href={CONTACT.whatsappUrl}>Atención por WhatsApp</a
+            >
+          </p>
+        </section>
+
+        <!-- 2 -->
+        <section id="datos">
+          <SectionTitle title="2. Datos que recopilamos" />
+          <ul
+            class="list-disc pl-6 md:pl-8 leading-relaxed marker:text-slate-400 space-y-1.5 text-slate-700"
+          >
+            <li>
+              <strong>Identificación y contacto</strong>: nombre, email,
+              teléfono
+            </li>
+            <li><strong>Comerciales</strong>: empresa, cargo y sector</li>
+            <li>
+              <strong>Operativos</strong>: información necesaria para configurar
+              integraciones (p. ej., IDs de hojas de cálculo, identificadores de
+              cuentas o webhooks)
+            </li>
+            <li>
+              <strong>Navegación/analítica</strong>: páginas vistas y eventos
+              agregados/anónimos. Consulta la <a
+                class="underline"
+                href="/legal/cookies">Política de Cookies</a
+              >
+            </li>
+            <li>
+              <strong>Soporte</strong>: mensajes y archivos que nos remitas para
+              asistencia
+            </li>
+          </ul>
+        </section>
+
+        <!-- 3 -->
+        <section id="finalidades">
+          <SectionTitle title="3. Finalidades del tratamiento" />
+          <ul
+            class="list-disc pl-6 md:pl-8 leading-relaxed marker:text-slate-400 space-y-1.5 text-slate-700"
+          >
+            <li>Atender solicitudes y enviar propuestas comerciales</li>
+            <li>
+              Prestar servicios contratados (automatizaciones, integraciones,
+              soporte)
+            </li>
+            <li>Facturación y cumplimiento de obligaciones tributarias</li>
+            <li>
+              Mejorar el sitio y los servicios mediante analítica agregada
+            </li>
+            <li>Comunicaciones transaccionales y notificaciones operativas</li>
+          </ul>
+        </section>
+
+        <!-- 4 -->
+        <section id="baselegal">
+          <SectionTitle title="4. Base legal" />
+          <p class="measure text-slate-700">
+            Tratamos tus datos con base en: (i) tu <strong
+              >consentimiento</strong
+            >; (ii) la <strong>ejecución de un contrato</strong> o medidas precontractuales;
+            (iii) nuestro <strong>interés legítimo</strong> en mejorar servicios;
+            y (iv) el <strong>cumplimiento de obligaciones legales</strong> (por
+            ejemplo, tributarias).
+          </p>
+        </section>
+
+        <!-- 5 -->
+        <section id="conservacion">
+          <SectionTitle title="5. Plazos de conservación" />
+          <p class="measure text-slate-700">
+            Conservamos datos mientras dure la relación contractual y por los
+            plazos necesarios para cumplir obligaciones legales. Los datos de
+            analítica se guardan de forma agregada/anónima por períodos
+            limitados.
+          </p>
+        </section>
+
+        <!-- 6 -->
+        <section id="compartir">
+          <SectionTitle title="6. Con quién compartimos datos" />
+          <p class="measure text-slate-700">
+            Compartimos datos con <em>encargados de tratamiento</em> que nos prestan
+            servicios (alojamiento, correo, analítica, automatización). Acceden solo
+            a lo necesario y bajo acuerdos de confidencialidad y protección de datos.
+          </p>
+        </section>
+
+        <!-- 7 -->
+        <section id="internacionales">
+          <SectionTitle title="7. Transferencias internacionales" />
+          <p class="measure text-slate-700">
+            Algunos proveedores pueden estar fuera de tu país. En esos casos,
+            exigimos garantías adecuadas (por ejemplo, cláusulas contractuales
+            tipo u otros mecanismos reconocidos).
+          </p>
+        </section>
+
+        <!-- 8 -->
+        <section id="derechos">
+          <SectionTitle title="8. Tus derechos" />
+          <p class="measure text-slate-700">
+            Puedes ejercer los derechos de acceso, rectificación, actualización,
+            oposición, portabilidad y supresión. También puedes retirar tu
+            consentimiento cuando el tratamiento se base en él.
+          </p>
+          <p class="measure text-slate-700 mt-2">
+            Escríbenos a <a class="underline" href={`mailto:${CONTACT.email}`}
+              >{CONTACT.email}</a
+            > indicando el derecho que deseas ejercer.
+          </p>
+        </section>
+
+        <!-- 9 -->
+        <section id="seguridad">
+          <SectionTitle title="9. Medidas de seguridad" />
+          <p class="measure text-slate-700">
+            Aplicamos medidas técnicas y organizativas razonables (control de
+            accesos, cifrado en tránsito, registros de eventos) para proteger
+            los datos frente a accesos no autorizados, pérdida o alteración.
+          </p>
+        </section>
+
+        <!-- 10 -->
+        <section id="contacto">
+          <SectionTitle title="10. Contacto" />
+          <p class="measure text-slate-700">
+            Si tienes dudas sobre esta Política o sobre el tratamiento de tus
+            datos, contáctanos.
+          </p>
+          <div class="mt-6">
+            <CTAButton
+              target="_blank"
+              href={CONTACT.whatsappUrl}
+              text="Escríbenos por WhatsApp"
+            />
+          </div>
+        </section>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Estilo local: más aire entre header y hero -->
+  <style is:inline>
+    /* Compensa el header fijo usando --header-h; fallback 64px para evitar solape */
+    .hero-top {
+      padding-top: calc(var(--header-h, 64px) + 2.5rem);
+    }
+    @media (min-width: 768px) {
+      .hero-top {
+        padding-top: calc(var(--header-h, 64px) + 3.5rem);
+      }
+    }
+  </style>
+</LandingLayout>

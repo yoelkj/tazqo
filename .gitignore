@@ -4,11 +4,17 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-package-lock.json
 .pnpm-debug.log
+
+# Mantener lockfiles en el repo (recomendado)
+!package-lock.json
+!pnpm-lock.yaml
+!yarn.lock
 
 # ────────── Astro build ──────────
 /.astro
+# IMPORTANTE: no ignorar dist/ porque se despliega a Linode
+# dist/
 
 # ────────── OS ──────────
 .DS_Store
@@ -21,8 +27,10 @@ Thumbs.db
 *.swo
 
 # ────────── Env files ──────────
+# Ignora todos los .env* excepto el ejemplo
 .env
-.env.*.local
+.env.*
+!.env.example
 
 # ────────── Logs ──────────
 *.log

@@ -2,16 +2,36 @@
 export const TAX = {
   igvRate: 0.18,
   includesIGV: false,
-  note: "Precios en PEN. No incluyen IGV (18%).", // <- úsalo en la UI
+  note: "Precios en PEN. No incluyen IGV (18%).",
+
+  // Identidad legal / facturación
+  idType: "RUC",
+  id: "10451024537",
+  legalName: "Yoel Velasquez Valencia",
+  country: "PE",
+
+  // Metadatos opcionales
+  address: "",
+  city: "",
+  phone: "",
 };
 
 // === Branding ===
 export const BRAND = {
   name: "Tazqo",
-  domain: "tareas.velcodi.com", // sin protocolo
-  locale: "es-PE",
+  domain: "tareas.velcodi.com",  // sin protocolo
+  locale: "es-PE",               // mono-idioma
   currency: "PEN",
   logo: "/brand/tazqo-logo.svg",
+
+  legalSuffix: "",
+  slogan: "Automatización confiable para MYPEs",
+  socials: {
+    x: "",
+    facebook: "",
+    instagram: "",
+    linkedin: "",
+  },
 };
 
 // === URL base del sitio ===
@@ -34,7 +54,7 @@ export const CONTACT = {
   whatsappUrl: `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(WA_TEXT)}`,
 };
 
-// (Opcional) Helper si quieres variar el utm_content por botón/ubicación
+// Helper para variar utm_content por botón/ubicación
 export function buildWhatsAppUrl(utmContent = "") {
   const extra = utmContent ? `&utm_content=${encodeURIComponent(utmContent)}` : "";
   const txt = `${WA_MSG} ${SITE_URL}${UTM}${extra}`;

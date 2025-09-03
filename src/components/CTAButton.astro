@@ -1,9 +1,39 @@
 ---
-const { href = "#", text = "Empezar", class: className = "" } = Astro.props;
+// src/components/CTAButton.astro
+
+export interface Props {
+  href?: string;
+  text?: string;
+  class?: string; // puedes seguir pasándolo como `class`
+  target?: "_self" | "_blank" | "_parent" | "_top";
+  rel?: string; // opcional: se combinará con noopener/noreferrer si target=_blank
+  download?: boolean | string; // true o nombre de archivo
+  ariaLabel?: string; // accesibilidad opcional
+}
+
+const {
+  href = "#",
+  text = "Empezar",
+  class: className = "",
+  target = "_self",
+  rel = "",
+  download = false,
+  ariaLabel,
+} = Astro.props;
+
+// Si se abre en nueva pestaña, forzar seguridad por defecto:
+const computedRel =
+  target === "_blank"
+    ? ["noopener", "noreferrer", rel].filter(Boolean).join(" ")
+    : rel || undefined;
 ---
 
 <a
   href={href}
+  target={target}
+  rel={computedRel}
+  download={download || undefined}
+  aria-label={ariaLabel}
   class={`inline-block px-6 py-3 rounded-xl font-semibold bg-brand-indigo text-white hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-indigo ${className}`}
 >
   {text}

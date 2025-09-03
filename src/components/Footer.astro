@@ -1,72 +1,179 @@
 ---
-import { BRAND, CONTACT, TAX } from "../config";
-import Container from "./Container.astro";
+import { BRAND, CONTACT, TAX } from "..//config";
+import Container from "../components/Container.astro";
+
 const year = new Date().getFullYear();
+const socials = BRAND?.socials || {};
+const hasSocials = !!(
+  socials.x ||
+  socials.facebook ||
+  socials.instagram ||
+  socials.linkedin
+);
+
+// Si estamos en la landing, usamos "#id"; si estamos en otra página (p. ej. /legal/*), usamos "/#id"
+const isHome =
+  Astro.url.pathname === "/" ||
+  Astro.url.pathname === "/index" ||
+  Astro.url.pathname === "/index.html";
+
+const anchor = (id: string) => (isHome ? `#${id}` : `/#${id}`);
 ---
 
 <footer aria-labelledby="footer">
-  <!-- Top suave (blanco) -->
+  <!-- Top -->
   <div class="bg-white text-slate-700">
     <Container class="py-12">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
         <!-- Brand + nota -->
         <div class="flex items-start gap-3">
-          <img src="/favicon.svg" alt={BRAND.name} class="h-8 w-8 rounded-lg" />
+          <img
+            src={BRAND.logo || "/favicon.svg"}
+            alt={BRAND.name}
+            class="h-8 w-8 rounded-lg"
+          />
           <div>
             <div class="text-lg font-semibold text-slate-900">{BRAND.name}</div>
             <div class="text-sm text-slate-500">{BRAND.domain}</div>
-            <p class="mt-3 text-sm text-slate-600">{TAX.note}</p>
+
+            <!-- Datos legales compactos -->
+            <p class="mt-3 text-[13px] leading-relaxed text-slate-600">
+              Responsable: <span class="font-medium"
+                >{TAX?.legalName || BRAND.name}</span
+              ><br />
+              {TAX?.idType || "RUC"}: <span class="tabular-nums"
+                >{TAX?.id || "-"}</span
+              >
+            </p>
+
+            <!-- Nota de impuestos -->
+            {TAX?.note && <p class="mt-2 text-xs text-slate-500">{TAX.note}</p>}
+
+            <!-- Socials (opcionales) -->
+            {
+              hasSocials && (
+                <div class="mt-4 flex items-center gap-4 text-sm">
+                  {socials.x && (
+                    <a
+                      href={socials.x}
+                      class="text-slate-600 hover:text-brand-indigo"
+                      rel="me noopener"
+                    >
+                      X
+                    </a>
+                  )}
+                  {socials.facebook && (
+                    <a
+                      href={socials.facebook}
+                      class="text-slate-600 hover:text-brand-indigo"
+                      rel="me noopener"
+                    >
+                      Facebook
+                    </a>
+                  )}
+                  {socials.instagram && (
+                    <a
+                      href={socials.instagram}
+                      class="text-slate-600 hover:text-brand-indigo"
+                      rel="me noopener"
+                    >
+                      Instagram
+                    </a>
+                  )}
+                  {socials.linkedin && (
+                    <a
+                      href={socials.linkedin}
+                      class="text-slate-600 hover:text-brand-indigo"
+                      rel="me noopener"
+                    >
+                      LinkedIn
+                    </a>
+                  )}
+                </div>
+              )
+            }
           </div>
         </div>
 
-        <!-- Navegación -->
-        <div class="grid grid-cols-2 gap-6">
-          <div>
-            <div class="font-semibold text-slate-900 mb-3">Secciones</div>
-            <ul class="space-y-2 text-sm">
-              <li>
-                <a
-                  href="#expertise"
-                  class="text-slate-600 hover:text-brand-indigo">Expertise</a>
-              </li>
-              <li>
-                <a href="#como" class="text-slate-600 hover:text-brand-indigo"
-                  >Cómo</a>
-              </li>
-              <li>
-                <a
-                  href="#precios"
-                  class="text-slate-600 hover:text-brand-indigo">Precios</a>
-              </li>
-              <li>
-                <a href="#faq" class="text-slate-600 hover:text-brand-indigo"
-                  >FAQ</a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <div class="font-semibold text-slate-900 mb-3">Contacto</div>
-            <ul class="space-y-2 text-sm">
-              <li>
-                <a
-                  href={CONTACT.whatsappUrl}
-                  class="text-slate-600 hover:text-brand-indigo">WhatsApp</a>
-              </li>
-              <li>
-                <a
-                  href={`mailto:${CONTACT.email}`}
-                  class="text-slate-600 hover:text-brand-indigo">Email</a>
-              </li>
-            </ul>
-          </div>
+        <!-- Navegación (Secciones de la landing con anchors inteligentes) -->
+        <div>
+          <div class="font-semibold text-slate-900 mb-3">Secciones</div>
+          <ul class="space-y-2 text-sm">
+            <li>
+              <a
+                href={anchor("hero")}
+                class="text-slate-600 hover:text-brand-indigo">Inicio</a
+              >
+            </li>
+            <li>
+              <a
+                href={anchor("servicios")}
+                class="text-slate-600 hover:text-brand-indigo">Servicios</a
+              >
+            </li>
+            <li>
+              <a
+                href={anchor("expertise")}
+                class="text-slate-600 hover:text-brand-indigo">Expertise</a
+              >
+            </li>
+            <li>
+              <a
+                href={anchor("como")}
+                class="text-slate-600 hover:text-brand-indigo"
+                >Cómo trabajamos</a
+              >
+            </li>
+            <li>
+              <a
+                href={anchor("precios")}
+                class="text-slate-600 hover:text-brand-indigo">Precios</a
+              >
+            </li>
+            <li>
+              <a
+                href={anchor("faq")}
+                class="text-slate-600 hover:text-brand-indigo">FAQ</a
+              >
+            </li>
+          </ul>
         </div>
 
-        <!-- CTA -->
+        <!-- Legal (páginas aparte) -->
+        <div>
+          <div class="font-semibold text-slate-900 mb-3">Legal</div>
+          <ul class="space-y-2 text-sm">
+            <li>
+              <a
+                href="/legal/terminos"
+                class="text-slate-600 hover:text-brand-indigo"
+                >Términos y Condiciones</a
+              >
+            </li>
+            <li>
+              <a
+                href="/legal/privacidad"
+                class="text-slate-600 hover:text-brand-indigo"
+                >Política de Privacidad</a
+              >
+            </li>
+            <li>
+              <a
+                href="/legal/cookies"
+                class="text-slate-600 hover:text-brand-indigo"
+                >Política de Cookies</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- CTA + contacto -->
         <div>
           <div class="font-semibold text-slate-900 mb-3">
             ¿Listo para empezar?
           </div>
           <a
+            target="_blank"
             href={CONTACT.whatsappUrl}
             class="inline-flex items-center justify-center px-4 py-3 rounded-xl bg-brand-indigo text-white hover:opacity-95 shadow-elev-1"
           >
@@ -75,19 +182,41 @@ const year = new Date().getFullYear();
           <p class="mt-3 text-xs text-slate-500">
             Propuesta del primer flujo en 48–72 h.
           </p>
+
+          <div class="mt-5">
+            <div class="font-semibold text-slate-900 mb-2">Contacto</div>
+            <ul class="space-y-2 text-sm">
+              <li>
+                <a
+                  target="_blank"
+                  href={CONTACT.whatsappUrl}
+                  class="text-slate-600 hover:text-brand-indigo">WhatsApp</a
+                >
+              </li>
+              <li>
+                <a
+                  href={`mailto:${CONTACT.email}`}
+                  class="text-slate-600 hover:text-brand-indigo">Email</a
+                >
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </Container>
   </div>
 
-  <!-- Barra inferior suave (sin raya separadora) -->
+  <!-- Bottom bar -->
   <div class="bg-slate-100 text-slate-500">
     <Container class="py-4">
       <div
         class="text-xs flex flex-col md:flex-row items-center justify-between gap-3"
       >
         <span>© {year} {BRAND.name}. Todos los derechos reservados.</span>
-        <span>Hecho para MYPEs en Perú · {BRAND.locale}</span>
+        <span>
+          {BRAND.locale} · Hecho para MYPEs en Perú ·
+          <span class="ml-1">{TAX?.idType || "RUC"} {TAX?.id || "-"}</span>
+        </span>
       </div>
     </Container>
   </div>

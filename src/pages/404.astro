@@ -1,30 +1,48 @@
 ---
+// src/pages/404.astro
 import LandingLayout from "../layouts/LandingLayout.astro";
 import Container from "../components/Container.astro";
 import CTAButton from "../components/CTAButton.astro";
-import { CONTACT } from "../config";
+import { BRAND, CONTACT } from "../config";
 ---
 
-<LandingLayout pageTitle="Página no encontrada · Tazqo">
-  <section class="min-h-[60vh] flex items-center">
-    <Container class="text-center">
-      <p class="uppercase tracking-[0.18em] text-[0.78rem] text-brand-indigo">
-        Error 404
-      </p>
-      <h1 class="h1 mt-2">Uy… no encontramos esa página</h1>
-      <p class="measure mx-auto mt-4 text-slate-600">
-        El enlace puede estar roto o haber cambiado. Vuelve al inicio o
-        escríbenos.
+<LandingLayout
+  pageTitle="404 — Página no encontrada"
+  pageDescription={`No encontramos lo que buscas en ${BRAND.name}.`}
+  robots="noindex,follow"
+>
+  <!-- HERO (centrado con offset del header) -->
+  <section class="relative hero-bg border-b hero-top">
+    <div class="absolute inset-0 bg-grid opacity-35 pointer-events-none"></div>
+    <Container class="relative py-20 md:py-28 text-center md:max-w-3xl mx-auto">
+      <p class="text-sm uppercase tracking-wide text-slate-500">Error 404</p>
+      <h1 class="h1 mt-2">No encontramos esta página</h1>
+      <p class="measure mt-4 text-slate-600 mx-auto">
+        Es posible que el enlace esté mal escrito o la página haya sido movida.
       </p>
       <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+        <CTAButton href="/#hero" text="Ir al inicio" />
         <a
-          href="/"
-          class="inline-flex items-center justify-center h-12 px-6 rounded-xl border border-slate-200 hover:bg-slate-50 font-semibold"
+          href={CONTACT.whatsappUrl}
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center justify-center px-6 py-3 rounded-xl border border-slate-200 font-semibold text-slate-900 hover:bg-slate-50"
         >
-          Volver al inicio
+          Hablar por WhatsApp
         </a>
-        <CTAButton href={CONTACT.whatsappUrl} text="Hablar por WhatsApp" />
       </div>
     </Container>
   </section>
+
+  <!-- Estilo local: más aire entre header y hero -->
+  <style is:inline>
+    .hero-top {
+      padding-top: calc(var(--header-h, 64px) + 3rem);
+    }
+    @media (min-width: 768px) {
+      .hero-top {
+        padding-top: calc(var(--header-h, 64px) + 4rem);
+      }
+    }
+  </style>
 </LandingLayout>

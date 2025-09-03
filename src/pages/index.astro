@@ -3,7 +3,6 @@ import LandingLayout from "../layouts/LandingLayout.astro";
 import Container from "../components/Container.astro";
 import CTAButton from "../components/CTAButton.astro";
 import SectionTitle from "../components/SectionTitle.astro";
-import Accordion from "../components/Accordion.astro";
 //import Pill from "../components/Pill.astro";
 import Pricing from "../components/Pricing.astro";
 import Expertise from "../components/Expertise.astro";
@@ -63,6 +62,7 @@ const heroChips = [
           </p>
           <div class="mt-8 flex flex-col sm:flex-row gap-4">
             <CTAButton
+              target="_blank"
               href={CONTACT.whatsappUrl}
               text="Quiero automatizar mi proceso"
             />
@@ -240,6 +240,7 @@ const heroChips = [
 
       <div class="mt-10">
         <CTAButton
+          target="_blank"
           href={CONTACT.whatsappUrl}
           text="Quiero este tipo de automatizaciones"
         />
@@ -267,7 +268,11 @@ const heroChips = [
         Cuéntanos tu proceso y te proponemos el primer flujo en días.
       </p>
       <div class="mt-6">
-        <CTAButton href={CONTACT.whatsappUrl} text="Automatiza mi negocio" />
+        <CTAButton
+          target="_blank"
+          href={CONTACT.whatsappUrl}
+          text="Automatiza mi negocio"
+        />
       </div>
     </Container>
   </section>

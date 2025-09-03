@@ -1,0 +1,277 @@
+---
+// src/components/CookieConsent.astro
+// Uso: <CookieConsent showDecline />  // si quieres mostrar “Solo necesarias”
+const { showDecline = false } = Astro.props;
+---
+
+<div
+  id="vc-cc-root"
+  class="vc-cc-safe"
+  aria-live="polite"
+  aria-atomic="true"
+  hidden
+>
+  <div class="vc-cc-wrap">
+    <div
+      class="vc-cc-card"
+      id="vc-cc-card"
+      role="dialog"
+      aria-label="Aviso de cookies"
+      aria-modal="true"
+      tabindex="-1"
+    >
+      <span class="vc-cc-text">
+        Usamos cookies para mejorar tu experiencia. Algunas son necesarias y
+        otras nos ayudan con analítica. Consulta la <a
+          href="/legal/cookies"
+          target="_blank"
+          rel="noopener">Política de Cookies</a
+        >.
+      </span>
+
+      <div class="vc-cc-actions">
+        {
+          showDecline && (
+            <button
+              id="vc-cc-decline"
+              type="button"
+              class="vc-cc-btn vc-cc-ghost"
+            >
+              Solo necesarias
+            </button>
+          )
+        }
+        <button id="vc-cc-accept" type="button" class="vc-cc-btn vc-cc-accept">
+          Aceptar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style is:inline>
+  /* Contenedor fijo, centrado, respeta safe-area. */
+  .vc-cc-safe {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: calc(clamp(14px, 2.2vh, 24px) + env(safe-area-inset-bottom));
+    z-index: 60;
+    pointer-events: none;
+  }
+  .vc-cc-wrap {
+    --cc-max-w: 64rem;
+    max-width: var(--cc-max-w);
+    margin: 0 auto;
+    padding-left: 16px;
+    padding-right: var(--cc-pr, 16px); /* lo ajusta el JS si existe #goTop */
+    pointer-events: auto;
+  }
+
+  /* Card clara estilo Tazqo (vidrio sutil) */
+  .vc-cc-card {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.75rem 1rem;
+    align-items: center;
+    padding: 0.85rem 1rem;
+    border-radius: 16px;
+
+    /* superficie clara con vidrio */
+    background: rgba(255, 255, 255, 0.82);
+    -webkit-backdrop-filter: blur(10px) saturate(120%);
+    backdrop-filter: blur(10px) saturate(120%);
+
+    /* borde y sombra suaves (slate) */
+    border: 1px solid rgba(2, 6, 23, 0.08);
+    box-shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
+
+    transform: translateY(8px);
+    opacity: 0;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+    outline: none;
+  }
+  .vc-cc-card.vc-show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* Texto y enlaces acordes al tema claro */
+  .vc-cc-text {
+    color: #334155; /* slate-700 */
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .vc-cc-text a {
+    color: var(--brand-indigo, #6659f5);
+    text-decoration: underline;
+  }
+  .vc-cc-text a:hover {
+    opacity: 0.9;
+  }
+
+  .vc-cc-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+  }
+
+  .vc-cc-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+    transition:
+      transform 0.06s ease,
+      opacity 0.15s ease,
+      background 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+  .vc-cc-btn:active {
+    transform: translateY(1px);
+  }
+  .vc-cc-btn:focus-visible {
+    outline: 2px solid rgba(102, 89, 245, 0.55);
+    outline-offset: 2px;
+  }
+
+  .vc-cc-accept {
+    background: var(--brand-indigo, #6659f5);
+    color: #fff;
+    border: 0;
+    box-shadow: 0 6px 14px rgba(102, 89, 245, 0.2);
+  }
+  .vc-cc-accept:hover {
+    opacity: 0.94;
+  }
+  .vc-cc-accept:active {
+    opacity: 0.88;
+  }
+
+  .vc-cc-ghost {
+    background: #fff;
+    color: #334155;
+    border: 1px solid rgba(2, 6, 23, 0.1);
+  }
+  .vc-cc-ghost:hover {
+    background: #f8fafc;
+  } /* slate-50 */
+
+  /* Responsive */
+  @media (max-width: 820px) {
+    .vc-cc-wrap {
+      --cc-max-w: 48rem;
+    }
+  }
+  @media (max-width: 640px) {
+    .vc-cc-card {
+      grid-template-columns: 1fr;
+    }
+    .vc-cc-actions {
+      justify-content: stretch;
+    }
+    .vc-cc-btn {
+      width: 100%;
+    }
+    .vc-cc-text {
+      font-size: 13.5px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .vc-cc-card {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    if (window.__tazqo_cc_init) return;
+    window.__tazqo_cc_init = true;
+
+    var COOKIE_NAME = "cookie_consent";
+    var root = document.getElementById("vc-cc-root");
+    var card = document.getElementById("vc-cc-card");
+    var btnOk = document.getElementById("vc-cc-accept");
+    var btnNo = document.getElementById("vc-cc-decline");
+
+    function getCookie(name) {
+      return document.cookie
+        .split("; ")
+        .find(function (r) {
+          return r.startsWith(name + "=");
+        })
+        ?.split("=")[1];
+    }
+    function setCookie(name, value, days) {
+      var d = new Date();
+      d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+      var parts = [
+        name + "=" + value,
+        "expires=" + d.toUTCString(),
+        "path=/",
+        "SameSite=Lax",
+      ];
+      if (location.protocol === "https:") parts.push("Secure");
+      if (location.hostname.endsWith("velcodi.com"))
+        parts.push("domain=.velcodi.com"); // compartir consentimiento
+      document.cookie = parts.join("; ");
+    }
+    function show() {
+      root.hidden = false;
+      requestAnimationFrame(function () {
+        card.classList.add("vc-show");
+        card.focus();
+      });
+    }
+    function hide() {
+      card.classList.remove("vc-show");
+      setTimeout(function () {
+        root.hidden = true;
+      }, 200);
+    }
+
+    // Evita solaparse con el botón flotante #goTop ajustando padding-right
+    try {
+      var goTop = document.getElementById("goTop");
+      if (goTop) {
+        var w = Math.ceil(goTop.getBoundingClientRect().width) || 0;
+        document.documentElement.style.setProperty("--cc-pr", w + 20 + "px");
+      }
+    } catch (e) {}
+
+    // Exponer API pública
+    window.__tazqo_cc_show = show;
+    window.__tazqo_cc_hide = hide;
+
+    // No mostrar en /legal/*
+    var inLegal = /^\/legal(\/|$)/.test(location.pathname);
+    if (!getCookie(COOKIE_NAME) && !inLegal) show();
+
+    // Aceptar → "allow" y carga Analytics vía layout
+    btnOk &&
+      btnOk.addEventListener("click", function () {
+        setCookie(COOKIE_NAME, "allow", 365);
+        if (typeof window.__tazqo_enable_analytics === "function")
+          window.__tazqo_enable_analytics();
+        hide();
+      });
+
+    // Solo necesarias
+    btnNo &&
+      btnNo.addEventListener("click", function () {
+        setCookie(COOKIE_NAME, "necessary", 365);
+        hide();
+      });
+  })();
+</script>
